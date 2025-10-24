@@ -1,6 +1,6 @@
 class UserModel {
-  final String? id;
-  final String? username;
+  String? id;
+  String? username;
   final String? firstName;
   final String? lastName;
   final String? email;
