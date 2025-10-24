@@ -20,17 +20,12 @@ class _ApiClient implements ApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<AuthResponse> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<AuthResponse> login(LoginRequest request) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'email': email,
-      r'password': password,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
     final _options = _setStreamType<AuthResponse>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
