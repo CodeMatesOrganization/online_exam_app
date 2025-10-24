@@ -1,9 +1,13 @@
+import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/api_client.dart';
 import 'package:online_exam/api/api_utils.dart';
+import 'package:online_exam/api/model/request/login_request.dart';
+import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/data/dataSource/AuthOnlineDataSource.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/result.dart';
 
+@Injectable(as: AuthOnlineDataSource)
 class AuthOnlineDataSourceImpl implements AuthOnlineDataSource {
 
   ApiClient apiClient;
@@ -11,18 +15,17 @@ class AuthOnlineDataSourceImpl implements AuthOnlineDataSource {
   AuthOnlineDataSourceImpl(this.apiClient);
 
   @override
-  Future<Result<UserModel>> login(email, password) {
+  Future<Result<UserModel>> login(LoginRequest request) {
     return executeApi<UserModel>(() async {
       final response = await apiClient.login(
-        email: email,
-        password: password,
+        request
       );
       return response.user!.toUserModel();
     });
   }
 
   @override
-  Future<Result<UserModel>> signUp(request) {
+  Future<Result<UserModel>> signUp(SignUpRequest request) {
     return executeApi<UserModel>(() async {
       final response = await apiClient.signUp(
           request
