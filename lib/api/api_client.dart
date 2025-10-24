@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:online_exam/api/model/request/login_request.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/api/model/response/auth_response.dart';
 
@@ -12,9 +13,7 @@ abstract class ApiClient {
 
   factory ApiClient(Dio dio, {String? baseUrl}) = _ApiClient;
   @POST('auth/signin')
-  Future<AuthResponse> login ({
-    @Query("email") required String email,
-    @Query("password") required String password}
+  Future<AuthResponse> login (@Body() LoginRequest request
       );
 
   @POST('auth/signup')

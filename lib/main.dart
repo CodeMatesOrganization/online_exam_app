@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam/di.dart';
+import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 
 void main() {
   configureDependencies();
-
   runApp(const MyApp());
 }
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LoginScreen(),
     );
   }
 }

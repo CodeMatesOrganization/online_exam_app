@@ -1,13 +1,15 @@
+import 'package:online_exam/api/model/request/login_request.dart';
+import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/result.dart';
 
 abstract class AuthOnlineDataSource {
 
 
-  Future<Result<UserModel>> login(
-      email  , password);
+  Future<Result<UserModel>> login(LoginRequest
+      request);
 
-  Future<Result<UserModel>> signUp(
+  Future<Result<UserModel>> signUp(SignUpRequest
       request
       );
 

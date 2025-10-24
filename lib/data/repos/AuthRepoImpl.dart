@@ -1,10 +1,13 @@
+import 'package:injectable/injectable.dart';
+import 'package:online_exam/api/model/request/login_request.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/data/dataSource/AuthOnlineDataSource.dart';
+import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/domain/result.dart';
 
-import '../../domain/model/UserModel.dart';
 
+@Injectable(as: AuthRepo)
 class AuthRepoImpl implements AuthRepo {
 
     AuthOnlineDataSource authOnlineDataSource;
@@ -12,10 +15,9 @@ class AuthRepoImpl implements AuthRepo {
     AuthRepoImpl(this.authOnlineDataSource);
 
   @override
-  Future<Result<UserModel>> login(String email ,String password) {
+  Future<Result<UserModel>> login(LoginRequest request) {
     return authOnlineDataSource.login(
-       email ,
-        password);
+       request);
   }
 
   @override
