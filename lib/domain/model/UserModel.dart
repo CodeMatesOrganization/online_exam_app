@@ -1,12 +1,12 @@
 class UserModel {
   String? id;
   String? username;
-  final String? firstName;
-  final String? lastName;
-  final String? email;
-  final String? phone;
-  final String? role;
-  final bool? isVerified;
+  String? firstName;
+  String? lastName;
+  String? email;
+  String? phone;
+  String? role;
+  bool? isVerified;
 
   UserModel({
     this.id,
