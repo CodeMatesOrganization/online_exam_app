@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:online_exam/domain/model/UserModel.dart';
 
 part 'user_response.g.dart';
 
@@ -41,6 +42,20 @@ class UserResponse {
 
   Map<String, dynamic> toJson() {
     return _$UserResponseToJson(this);
+  }
+
+
+  UserModel toUserModel(){
+    return UserModel(
+      email: email,
+      id: Id,
+      phone: phone,
+      firstName:firstName,
+      isVerified: isVerified,
+      lastName: lastName,
+      role: role,
+      username: username
+    );
   }
 }
 
