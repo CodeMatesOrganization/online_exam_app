@@ -6,4 +6,7 @@ import 'package:online_exam/domain/result.dart';
 abstract class AuthRepo {
   Future<Result<UserModel>> login(LoginRequest request);
   Future<Result<UserModel>> signUp(SignUpRequest request);
+  Future<Result<void>> forgetPassword(String email);
+  Future<Result<void>> emailVerification(String resetCode);
+  Future<Result<void>> resetPassword(String email, String newPassword);
 }

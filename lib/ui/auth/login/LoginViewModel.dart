@@ -1,33 +1,50 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/model/request/login_request.dart';
-import 'package:online_exam/domain/result.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
-import 'package:online_exam/domain/useCase/auth/Login.dart';
+import 'package:online_exam/domain/repositories/AuthRepo.dart';
+import 'package:online_exam/domain/result.dart';
+import 'package:online_exam/ui/auth/login/LoginContract.dart';
 
 @injectable
-class LoginViewModel extends ChangeNotifier {
-   LoginUseCase loginUseCase;
+class LoginViewModel extends Bloc<LoginIntent, LoginState> {
+  final AuthRepo authRepo;
 
-  LoginViewModel(this.loginUseCase);
+  LoginViewModel(this.authRepo) : super(LoginInitial()) {
+    on<LoginButtonClicked>(_onLoginClicked);
+    on<EmailChanged>(_onEmailChanged);
+  }
 
-  bool isLoading = false;
-  String? errorMessage;
-  UserModel? user;
+  Future<void> _onLoginClicked(
+      LoginButtonClicked event,
+      Emitter<LoginState> emit,
+      ) async {
+    emit(LoginLoading());
 
-   Future<void> login(String email, String password) async {
-     isLoading = true;
-     notifyListeners();
+    final result = await authRepo.login(LoginRequest(
+      email: event.email,
+      password: event.password,
+    ));
 
-     final request = LoginRequest(email: email, password: password);
+    if (result is Success<UserModel>) {
+      emit(LoginSuccess(result.data));
+    } else if (result is Failure<UserModel>) {
+      emit(LoginError(result.exception.toString()));
+    }
+  }
 
-     final result = await loginUseCase(request);
+  void _onEmailChanged(
+      EmailChanged event,
+      Emitter<LoginState> emit,
+      ) {
+    final email = event.email.trim();
+    final isValid =
+    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
 
-     result is Success<UserModel>
-         ? user = result.data
-         : errorMessage = (result as Failure).exception.toString();
-
-     isLoading = false;
-     notifyListeners();
-   }
+    if (!isValid) {
+      emit(LoginEmailError("Please enter a valid email address"));
+    } else {
+      emit(LoginInitial());
+    }
+  }
 }
