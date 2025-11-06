@@ -4,13 +4,13 @@ import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/result.dart';
 
 abstract class AuthOnlineDataSource {
+  Future<Result<UserModel>> login(LoginRequest request);
 
+  Future<Result<UserModel>> signUp(SignUpRequest request);
 
-  Future<Result<UserModel>> login(LoginRequest
-      request);
+  Future<Result<void>> forgetPassword(String email);
 
-  Future<Result<UserModel>> signUp(SignUpRequest
-      request
-      );
+  Future<Result<void>> emailVerification(String resetCode);
 
+  Future<Result<void>> resetPassword(String email, String newPassword);
 }

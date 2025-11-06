@@ -1,58 +1,52 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
-import 'package:online_exam/domain/result.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
-import 'package:online_exam/domain/useCase/auth/SignUp.dart';
+import 'package:online_exam/domain/repositories/AuthRepo.dart';
+import 'package:online_exam/domain/result.dart';
+import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 
 @injectable
-class SignUpViewModel extends ChangeNotifier {
-  final SignupUseCase signUpUseCase;
+class SignUpViewModel extends Bloc<SignUpIntent, SignUpState> {
+  final AuthRepo authRepo;
 
-  SignUpViewModel(this.signUpUseCase);
+  SignUpViewModel(this.authRepo) : super(SignUpInitial()) {
+    on<SignUpButtonClicked>(_onSignUpClicked);
+    on<SignUpEmailChanged>(_onEmailChanged);
+  }
 
-  bool isLoading = false;
-  String? errorMessage;
-  UserModel? user;
+  Future<void> _onSignUpClicked(
+      SignUpButtonClicked event,
+      Emitter<SignUpState> emit,
+      ) async {
+    emit(SignUpLoading());
 
-  Future<void> signUp({
-    required String username,
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String password,
-    required String rePassword,
-    required String phone,
-  }) async {
-    if (password != rePassword) {
-      errorMessage = "Passwords do not match";
-      notifyListeners();
-      return;
-    }
-
-    isLoading = true;
-    errorMessage = null;
-    notifyListeners();
-
-    final request = SignUpRequest(
-      username: username,
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password,
-      rePassword: rePassword,
-      phone: phone,
-    );
-
-    final result = await signUpUseCase.invoke(request);
+    final result = await authRepo.signUp(SignUpRequest(
+      firstName: event.firstName,
+      lastName: event.lastName,
+      email: event.email,
+      password: event.password,
+    ));
 
     if (result is Success<UserModel>) {
-      user = result.data;
+      emit(SignUpSuccess(result.data));
     } else if (result is Failure<UserModel>) {
-      errorMessage = result.exception.toString();
+      emit(SignUpError(result.exception.toString()));
     }
+  }
 
-    isLoading = false;
-    notifyListeners();
+  void _onEmailChanged(
+      SignUpEmailChanged event,
+      Emitter<SignUpState> emit,
+      ) {
+    final email = event.email.trim();
+    final isValid =
+    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+
+    if (!isValid) {
+      emit(SignUpEmailError("Please enter a valid email address"));
+    } else {
+      emit(SignUpInitial());
+    }
   }
 }
