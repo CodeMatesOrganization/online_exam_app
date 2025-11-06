@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/model/request/login_request.dart';
-import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/domain/result.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/useCase/auth/Login.dart';
