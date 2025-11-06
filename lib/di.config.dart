@@ -20,7 +20,10 @@ import 'api/dataSource/AuthOnlineDataSourceImpl.dart' as _i1055;
 import 'data/dataSource/AuthOnlineDataSource.dart' as _i731;
 import 'data/repos/AuthRepoImpl.dart' as _i333;
 import 'domain/repositories/AuthRepo.dart' as _i620;
+import 'domain/useCase/auth/EmailVerification.dart' as _i186;
+import 'domain/useCase/auth/ForgotPassword.dart' as _i1016;
 import 'domain/useCase/auth/Login.dart' as _i629;
+import 'domain/useCase/auth/ResetPassword.dart' as _i936;
 import 'domain/useCase/auth/SignUp.dart' as _i425;
 import 'ui/auth/login/LoginViewModel.dart' as _i905;
 import 'ui/auth/signUp/SignUpViewModel.dart' as _i584;
@@ -49,14 +52,20 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1055.AuthOnlineDataSourceImpl(gh<_i332.ApiClient>()));
     gh.factory<_i620.AuthRepo>(
         () => _i333.AuthRepoImpl(gh<_i731.AuthOnlineDataSource>()));
+    gh.factory<_i186.EmailVerificationUseCase>(
+        () => _i186.EmailVerificationUseCase(gh<_i620.AuthRepo>()));
+    gh.factory<_i1016.ForgotPasswordUseCase>(
+        () => _i1016.ForgotPasswordUseCase(gh<_i620.AuthRepo>()));
     gh.factory<_i629.LoginUseCase>(
         () => _i629.LoginUseCase(gh<_i620.AuthRepo>()));
+    gh.factory<_i936.ResetPasswordUseCase>(
+        () => _i936.ResetPasswordUseCase(gh<_i620.AuthRepo>()));
     gh.factory<_i425.SignupUseCase>(
         () => _i425.SignupUseCase(gh<_i620.AuthRepo>()));
     gh.factory<_i905.LoginViewModel>(
-        () => _i905.LoginViewModel(gh<_i629.LoginUseCase>()));
+        () => _i905.LoginViewModel(gh<_i620.AuthRepo>()));
     gh.factory<_i584.SignUpViewModel>(
-        () => _i584.SignUpViewModel(gh<_i425.SignupUseCase>()));
+        () => _i584.SignUpViewModel(gh<_i620.AuthRepo>()));
     return this;
   }
 }
