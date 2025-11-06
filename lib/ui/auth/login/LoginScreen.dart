@@ -28,6 +28,11 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         foregroundColor: AppColors.black,
+        leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () {
+        Navigator.pop(context);
+        },)
       ),
       body: BlocConsumer<LoginViewModel, LoginState>(
         listener: (context, state) {
@@ -53,19 +58,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const SizedBox(height: 60),
-                  Text(
-                    "Email",
-                    style: TextStyle(
-                      color: isEmailError ? AppColors.red : AppColors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
                   const SizedBox(height: 4),
-                  TextField(
+                  TextFormField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
+                      labelText: "Email",
+                      labelStyle: TextStyle(
+                        color: Colors.black87,
+                        fontWeight: FontWeight.w500,
+                      ),
                       hintText: "Enter your email",
+                      hintStyle: TextStyle(
+                        color: Colors.grey,
+                      ),
                       errorText:
                       isEmailError ? "This email is not valid" : null,
                     ),
@@ -82,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  TextField(
+                  TextFormField(
                     controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
@@ -136,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
                       "Login",
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 16 , color: AppColors.white),
                     ),
                   ),
                   const SizedBox(height: 24),
