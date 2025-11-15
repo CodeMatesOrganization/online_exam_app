@@ -4,7 +4,6 @@ import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/login/LoginContract.dart';
 import 'package:online_exam/ui/auth/login/LoginViewModel.dart';
-import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -60,10 +59,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 60),
                   const SizedBox(height: 4),
                   TextFormField(
+
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       labelText: "Email",
+
                       labelStyle: TextStyle(
                         color: Colors.black87,
                         fontWeight: FontWeight.w500,
@@ -157,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             MaterialPageRoute(
                               builder: (context) => BlocProvider(
                                 create: (context) => getIt<SignUpViewModel>(), // <== هنا الحل
-                                child: const SignUpScreen(),
+                              //  child: const SignUpScreen(),
                               ),
                             ),
                           );

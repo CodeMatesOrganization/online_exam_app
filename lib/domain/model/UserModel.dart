@@ -1,6 +1,6 @@
 class UserModel {
   String? id;
-  String? username;
+  String? userName;
   String? firstName;
   String? lastName;
   String? email;
@@ -10,7 +10,7 @@ class UserModel {
 
   UserModel({
     this.id,
-    this.username,
+    this.userName,
     this.firstName,
     this.lastName,
     this.email,

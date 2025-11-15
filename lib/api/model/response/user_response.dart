@@ -8,7 +8,7 @@ class UserResponse {
   @JsonKey(name: "_id")
   final String? Id;
   @JsonKey(name: "username")
-  final String? username;
+  final String? userName;
   @JsonKey(name: "firstName")
   final String? firstName;
   @JsonKey(name: "lastName")
@@ -26,7 +26,7 @@ class UserResponse {
 
   UserResponse ({
     this.Id,
-    this.username,
+    this.userName,
     this.firstName,
     this.lastName,
     this.email,
@@ -54,7 +54,7 @@ class UserResponse {
       isVerified: isVerified,
       lastName: lastName,
       role: role,
-      username: username
+      userName: userName
     );
   }
 }

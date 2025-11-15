@@ -86,7 +86,7 @@ class _ApiClient implements ApiClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/auth/forgotPassword',
+            'auth/forgotPassword',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -106,7 +106,7 @@ class _ApiClient implements ApiClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/auth/verifyResetCode',
+            'auth/verifyResetCode',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -126,7 +126,7 @@ class _ApiClient implements ApiClient {
       Options(method: 'PUT', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            '/auth/resetPassword',
+            'auth/resetPassword',
             queryParameters: queryParameters,
             data: _data,
           )

@@ -32,9 +32,17 @@ class AppTheme {
               fontWeight: FontWeight.w600)),
     ),
     inputDecorationTheme: InputDecorationTheme(
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      labelStyle: const TextStyle(color: AppColors.black
+      ,fontSize: 14),
+      hintStyle: const TextStyle(color: Colors.grey , fontSize: 14),
       border: OutlineInputBorder(
-        borderSide: BorderSide(color: AppColors.black),
         borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.gray, width: 0.5),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: const BorderSide(color: AppColors.gray, width: 0.5),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.blue, width: 1.5),
@@ -47,6 +55,23 @@ class AppTheme {
       focusedErrorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: AppColors.red, width: 1.5),
         borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        side: BorderSide(width: 1, color: AppColors.blue),
+        fixedSize: Size(343, 48),
+        backgroundColor: AppColors.blue,
+        foregroundColor: AppColors.white,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal:24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        textStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+        elevation: 4, // ممكن تغير قيمة الارتفاع حسب الرغبة
       ),
     ),
   );

@@ -15,8 +15,8 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 
 import 'api/api_client.dart' as _i332;
-import 'api/api_module.dart' as _i95;
 import 'api/dataSource/AuthOnlineDataSourceImpl.dart' as _i1055;
+import 'api/di.dart' as _i10;
 import 'data/dataSource/AuthOnlineDataSource.dart' as _i731;
 import 'data/repos/AuthRepoImpl.dart' as _i333;
 import 'domain/repositories/AuthRepo.dart' as _i620;
@@ -47,7 +47,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i528.PrettyDioLogger>(),
         ));
     gh.singleton<_i332.ApiClient>(
-        () => apiModule.providerApiClient(gh<_i361.Dio>()));
+        () => apiModule.provideApiClient(gh<_i361.Dio>()));
     gh.factory<_i731.AuthOnlineDataSource>(
         () => _i1055.AuthOnlineDataSourceImpl(gh<_i332.ApiClient>()));
     gh.factory<_i620.AuthRepo>(
@@ -70,4 +70,4 @@ extension GetItInjectableX on _i174.GetIt {
   }
 }
 
-class _$ApiModule extends _i95.ApiModule {}
+class _$ApiModule extends _i10.ApiModule {}

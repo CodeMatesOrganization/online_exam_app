@@ -19,12 +19,12 @@ abstract class ApiClient {
   @POST('auth/signup')
   Future<AuthResponse> signUp(@Body() SignUpRequest request);
 
-  @POST("/auth/forgotPassword")
+  @POST("auth/forgotPassword")
   Future<void> forgotPassword(@Body() Map<String, dynamic> body);
 
-  @POST("/auth/verifyResetCode")
+  @POST("auth/verifyResetCode")
   Future<void> verifyResetCode(@Body() Map<String, dynamic> body);
 
-  @PUT("/auth/resetPassword")
+  @PUT("auth/resetPassword")
   Future<void> resetPassword(@Body() Map<String, dynamic> body);
 }
