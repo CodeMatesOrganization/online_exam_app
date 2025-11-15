@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
+import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
+import 'package:online_exam/ui/auth/signUp/widget/validator.dart';
+import 'package:online_exam/ui/widget/AppErrorWidget.dart';
+import 'package:online_exam/ui/widget/LoadingWidget.dart';
 import 'package:online_exam/ui/widget/custome_text.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -81,22 +85,10 @@ class _SignupState extends State<SignUpScreen> {
                 Container(
                   width: double.infinity,
                   child: CustomTextField(
-                    hintText: "Enter Username",
-                    isPassword: false,
-                    lableText: "UserName",
+                    hintText: "Enter your user name",
+                    labelText: "UserName",
                     controller: usercontroller,
-                    validator: (String? val) {
-                      //RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9,.-]+$');
-                      if (val == null) {
-                        return 'this field is required';
-                      } else if (val.isEmpty) {
-                        return 'this field is required';
-                      } //else if (!usernameRegex.hasMatch(val)) {
-                      // return 'enter valid username';}
-                      else {
-                        return val.isEmpty ? "username can't be empty" : " ";
-                      }
-                    },
+                    validator: nulltyChecker,
                   ),
                 ),
                 Row(
@@ -104,30 +96,17 @@ class _SignupState extends State<SignUpScreen> {
                     Expanded(
                       child: CustomTextField(
                           hintText: "First Name",
-                          isPassword: false,
-                          lableText: "First Name",
+                          labelText: "First Name",
                           controller: firstcontroller,
-                          validator: (String? val) {
-                            if (val == null || val.isEmpty) {
-                              return 'this field is required';
-                            } else {
-                              return null;
-                            }
-                          }),
+                          validator: nulltyChecker),
                     ),
                     Expanded(
                       child: CustomTextField(
                         hintText: "Enter Second Name",
                         isPassword: false,
-                        lableText: "Second Name",
+                        labelText: "Second Name",
                         controller: secondcontroller,
-                        validator: (String? val) {
-                          if (val == null || val.isEmpty) {
-                            return 'this field is required';
-                          } else {
-                            return null;
-                          }
-                        },
+                        validator: nulltyChecker,
                       ),
                     ),
                   ],
@@ -136,113 +115,54 @@ class _SignupState extends State<SignUpScreen> {
                   width: double.infinity,
                   child: CustomTextField(
                       hintText: "Email",
-                      isPassword: false,
-                      lableText: "Email",
+                      labelText: "Email",
                       controller: emailcontroller,
-                      validator: (String? val) {
-                        RegExp emailRegex = RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-                        if (val == null) {
-                          return 'this field is required';
-                        } else if (val.trim().isEmpty) {
-                          return 'this field is required';
-                        } else if (emailRegex.hasMatch(val) == false) {
-                          return 'enter valid email';
-                        } else {
-                          return val.isEmpty ? "Email can't be empty" : null;
-                        }
-                      }),
+                      validator: emailValidator),
                 ),
                 Row(children: [
                   Expanded(
                     child: CustomTextField(
                         hintText: "Password",
                         isPassword: true,
-                        lableText: "Password",
+                        labelText: "Password",
                         controller: passcontroller,
-                        validator: (String? val) {
-                          RegExp passwordRegex =
-                          RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])');
-                          if (val == null) {
-                            return 'this field is required';
-                          } else if (val.isEmpty) {
-                            return 'this field is required';
-                          } else if (val.length < 8 ||
-                              !passwordRegex.hasMatch(val)) {
-                            return 'strong password please';
-                          } else {
-                            return null;
-                          }
-                        }),
+                        validator: passwordValidator),
                   ),
                   Expanded(
                     child: CustomTextField(
                         hintText: "Confirm Password",
                         isPassword: true,
-                        lableText: "Confirm Password",
+                        labelText: "Confirm Password",
                         controller: confirmcontroller,
-                        validator: (String? val) {
-                          if (val == null || val.isEmpty) {
-                            return 'this field is required';
-                          } else {
-                            return null;
-                          }
-                        }),
+                        validator: (val) => confirmPasswordValidator(
+                            val,
+                            passcontroller.text
+                        )),
                   ),
                 ]),
                 Container(
                   width: double.infinity,
                   child: CustomTextField(
+                    keyboardType: TextInputType.phone,
                       hintText: "phone number",
-                      isPassword: false,
-                      lableText: "Phone Number",
+                      labelText: "Phone Number",
                       controller: phonecontroller,
-                      validator: (String? val) {
-                        if (val == null) {
-                          return 'this field is required';
-                        } else if (int.tryParse(val.trim()) == null) {
-                          return 'enter numbers only';
-                        } else if (val.trim().length != 11) {
-                          return 'enter value must equal 11 digit';
-                        } else {
-                          return null;
-                        }
-                      }),
+                      validator: phoneValidator
+                      ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+
                 BlocConsumer<SignUpViewModel, SignUpState>(
                   listener: (context, state) {
                     if (state is SignUpLoadingState) {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: Center(
-                              child: CircularProgressIndicator(
-                                  color: Colors.black),
-                            ),
-                          ));
+                      LoadingWidget;
                     } else if (state is SignUpErrorState) {
-                      showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            content: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(state.exception.toString()),
-                                ],
-                              ),
-                            ),
-                          ));
+                     AppErrorWidget(exception: state.exception);
                     }
                   },
                   builder: (context, state) {
                     return ElevatedButton(
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
-                          print("Form is valid");
                           viewModel.authRepo.signUp(
                             SignUpRequest(
                               firstName: firstcontroller.text,
@@ -260,37 +180,32 @@ class _SignupState extends State<SignUpScreen> {
                     );
                   },
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Already have an account?",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
-                        },
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400),
-                        )),
-                  ],
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20 ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Already have an account ?",
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()));
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                color: AppColors.blue,
+                                fontWeight: FontWeight.w600),
+                          )),
+                    ],
+                  ),
                 )
               ],
             ),
@@ -299,4 +214,5 @@ class _SignupState extends State<SignUpScreen> {
       ),
     );
   }
+
 }

@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget{
   final String hintText;
-  final String lableText;
+  final String labelText;
   final bool isPassword;
-
-
+  final TextInputType? keyboardType;
 
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+
   CustomTextField({
     required this.hintText,
-    required this.isPassword,
     required this.controller,
+    required this.labelText,
     this.validator,
-    required this.lableText
+    this.keyboardType,
+    this.isPassword = false,
+
 
   });
   @override
@@ -22,12 +24,12 @@ class CustomTextField extends StatelessWidget{
     return Container(
       padding: EdgeInsets.fromLTRB(15, 20, 15, 20 ),
       child: TextFormField(
+        keyboardType: keyboardType,
         controller: controller,
         validator: validator,
         obscureText: isPassword,
         decoration: InputDecoration(
-
-          labelText: lableText,
+          labelText: labelText,
           hintText: hintText,
         ),
       )
