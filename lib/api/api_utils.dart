@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:online_exam/api/model/response/ServerErrorResponse.dart';
 import 'package:online_exam/domain/exceptions/custome_exception.dart';

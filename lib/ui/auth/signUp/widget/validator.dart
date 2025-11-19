@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 String? nulltyChecker(String? val) {
   if (val == null || val.isEmpty) {

@@ -3,10 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:dio/dio.dart';
-
 import 'package:online_exam/api/model/request/sign_up_request.dart';
-import 'package:online_exam/domain/exceptions/custome_exception.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/domain/result.dart';

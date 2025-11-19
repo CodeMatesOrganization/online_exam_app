@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:online_exam/domain/model/SignUpResponse.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/ui/common/widget_state.dart';
 

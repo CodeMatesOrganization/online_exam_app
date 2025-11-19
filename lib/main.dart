@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
-import 'package:online_exam/ui/auth/login/LoginViewModel.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/ui/common/bloc_observer.dart';
