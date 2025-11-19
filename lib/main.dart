@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
+import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/ui/common/bloc_observer.dart';
@@ -19,10 +20,14 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => GetIt.instance<SignUpViewModel>(),
       child: MaterialApp(
-        theme: AppTheme.generalTheme, // ← هنا ضيف الثيم
-
-        home: SignUpScreen(),
+        theme: AppTheme.generalTheme,
+        initialRoute: '/forget_password', // الشاشة اللي تظهر أولاً
+        routes: {
+          '/forget_password': (context) => ForgetPasswordScreen(),
+          '/sign_up': (context) => SignUpScreen(),
+        },
       ),
     );
   }
 }
+
