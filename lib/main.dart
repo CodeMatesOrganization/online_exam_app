@@ -4,7 +4,6 @@ import 'package:online_exam/core/theme/app_theme.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/login/LoginViewModel.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
-import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/ui/common/bloc_observer.dart';
 import 'di.dart';
