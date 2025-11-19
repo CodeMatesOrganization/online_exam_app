@@ -48,8 +48,3 @@ Future<Result<T>> executeApi<T>(Future<T> apiCall()) async {
     return Failure(UnExpectedError());
   }
 }
-
-import 'dart:convert';
-import 'package:dio/dio.dart';
-import 'package:online_exam/api/model/response/server_error_response.dart';
-import 'package:online_exam/domain/exceptions/custom_exceptions.dart';

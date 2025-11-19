@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
+import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/ui/auth/signUp/widget/validator.dart';
@@ -149,47 +150,53 @@ class _SignupState extends State<SignUpScreen> {
                 ),
 
                 BlocConsumer<SignUpViewModel, SignUpState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
+                    // 1. Loading
                     if (state is SignUpLoadingState) {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (_) => Center(child: CircularProgressIndicator()),
                       );
-                    } else {
-                      Navigator.of(context).pop(); // يقفل الـ loading
-                      if (state is SignUpErrorState) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text("Error"),
-                            content: AppErrorWidget(
-                              exception: state.exception,
-                              onRetry: () {
-                                Navigator.pop(context); // يغلق الديالوج
-                                // ممكن تعيد محاولة التسجيل أو أي حاجة مناسبة
-                              },
+                    }
+                    // 2. Error
+                    else if (state is SignUpErrorState) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Error"),
+                          content: AppErrorWidget(
+                            exception: state.exception,
+                            onRetry: () => Navigator.pop(context),
+                          ),
+                        ),
+                      );
+                    }
+                    // 3. Success
+                    else if (state is SignUpSuccessState) {
+                      Navigator.of(context, rootNavigator: true).pop(); // أغلق loading
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text("Success"),
+                          content: Text("Sign Up Successful! Please Login."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("OK"),
                             ),
-                          ),
-                        );
-                      } else if (state is SignUpSuccessState) {
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: Text("Success"),
-                            content: Text("Sign Up Successful! Please Login."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  viewModel.doIntent(NavigateToLogin());
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+                          ],
+                        ),
+                      );
+                     viewModel.doIntent(NavigateToLogin());
+                    }
+                    // 4. Navigate directly
+                    else if (state is NavigateToLoginEvent) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()),
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -226,13 +233,15 @@ class _SignupState extends State<SignUpScreen> {
                       ),
                       InkWell(
                           onTap: () {
+                            print("Button clicked");
+
                             viewModel.doIntent(NavigateToLogin());
                           },
                           child: Text(
                             "Login",
                             style: TextStyle(
                                 color: AppColors.blue,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w900),
                           )),
                     ],
                   ),

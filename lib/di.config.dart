@@ -26,6 +26,7 @@ import 'domain/useCase/auth/Login.dart' as _i629;
 import 'domain/useCase/auth/ResetPassword.dart' as _i936;
 import 'domain/useCase/auth/SignUp.dart' as _i425;
 import 'ui/auth/login/LoginViewModel.dart' as _i905;
+import 'ui/auth/signUp/SignUpViewModel.dart' as _i584;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -63,6 +64,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i425.SignupUseCase(gh<_i620.AuthRepo>()));
     gh.factory<_i905.LoginViewModel>(
         () => _i905.LoginViewModel(gh<_i620.AuthRepo>()));
+    gh.factory<_i584.SignUpViewModel>(
+        () => _i584.SignUpViewModel(gh<_i620.AuthRepo>()));
     return this;
   }
 }
