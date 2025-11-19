@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
@@ -14,71 +17,41 @@ import 'package:online_exam/ui/common/widget_state.dart';
 class SignUpViewModel extends Cubit<SignUpState> {
   final AuthRepo authRepo;
 
-  SignUpLoadedState currentState = SignUpLoadedState(
-      Idle()
-  );
+  SignUpLoadedState currentState = SignUpLoadedState(Idle());
 
-  SignUpViewModel(this.authRepo) : super( SignUpLoadedState(
-      Idle()
-  )) ;
-
+  SignUpViewModel(this.authRepo) : super(SignUpLoadedState(Idle()));
 
   void doIntent(SignUpIntent intent) {
-    switch (intent) {
-
-      case SignUpButtonClicked():
-        _handleSubmit(intent);
-      case NavigateToLogin():
-        emit(NavigateToLoginEvent());
-        case SignUpInitialState():
-        emit(SignUpLoadedState(
-            Idle()
-        ));
-
+    if (intent is SignUpButtonClicked) {
+      _handleSubmit(intent);
+    } else if (intent is NavigateToLogin) {
+      emit(NavigateToLoginEvent());
+    } else if (intent is SignUpInitialState) {
+      emit(SignUpLoadedState(Idle()));
     }
-}
+  }
 
   void _handleSubmit(SignUpButtonClicked intent) async {
     emit(SignUpLoadingState());
-      var result = await authRepo.signUp(
-        SignUpRequest(
-          firstName: intent.firstName,
-          lastName: intent.lastName,
-          rePassword: intent.confirmPassword,
-          username: intent.userName,
-          email: intent.email,
-          password: intent.password,
-          phone: intent.phone,
-        ),
-      );
-      _sendState(currentState.copyWith(
-          signUpState: Loading()));
-      switch (result) {
-        case Success<UserModel>():
-          {
-            _sendState(
-              currentState.copyWith(signUpState: Loaded(result.data)),
-            );
-            break;
-          }
-        case Failure<UserModel>():
-          {
-            _sendState(
-              currentState.copyWith(signUpState: ComponentError(result.exception)),
-            );
-            break;
 
-      }
+    final signUpRequest = SignUpRequest(
+      firstName: intent.firstName,
+      lastName: intent.lastName,
+      rePassword: intent.confirmPassword,
+      username: intent.userName,
+      email: intent.email,
+      password: intent.password,
+      phone: intent.phone,
+    );
+
+    debugPrint("🔥 SignUpRequest JSON: ${jsonEncode(signUpRequest.toJson())}", wrapWidth: 1024);
+
+    var result = await authRepo.signUp(signUpRequest);
+
+    if (result is Success<UserModel>) {
+      emit(SignUpSuccessState(result.data)); // Success مباشرة
+    } else if (result is Failure<UserModel>) {
+      emit(SignUpErrorState(result.exception)); // Error مباشرة
     }
-
-  }
-
-
-  void _sendState(SignUpLoadedState state) {
-    currentState = state;
-    emit(state);
   }
 }
-
-
-

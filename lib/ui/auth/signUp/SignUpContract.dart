@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:online_exam/domain/model/SignUpResponse.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
 import 'package:online_exam/ui/common/widget_state.dart';
 
@@ -27,6 +28,11 @@ class SignUpErrorState extends SignUpState {
   final Exception exception;
   SignUpErrorState(this.exception);
 }
+class SignUpSuccessState extends SignUpState{
+  final UserModel user;
+  SignUpSuccessState(this.user);
+}
+
 
 class NavigateToLoginEvent extends SignUpState {}
 

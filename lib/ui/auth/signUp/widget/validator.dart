@@ -19,7 +19,7 @@ String? emailValidator(String? val) {
 }
 
 String? passwordValidator(String? val) {
-  RegExp passwordRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])');
+  RegExp passwordRegex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
   if (val == null || val.isEmpty) {
     return 'this field is required';
   }

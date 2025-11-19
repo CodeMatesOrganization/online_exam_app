@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prefs/prefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
@@ -154,32 +155,68 @@ class _SignupState extends State<SignUpScreen> {
                 BlocConsumer<SignUpViewModel, SignUpState>(
                   listener: (context, state) {
                     if (state is SignUpLoadingState) {
-                      LoadingWidget;
-                    } else if (state is SignUpErrorState) {
-                     AppErrorWidget(exception: state.exception);
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) => Center(child: CircularProgressIndicator()),
+                      );
+                    } else {
+                      Navigator.of(context).pop(); // يقفل الـ loading
+                      if (state is SignUpErrorState) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text("Error"),
+                            content: AppErrorWidget(
+                              exception: state.exception,
+                              onRetry: () {
+                                Navigator.pop(context); // يغلق الديالوج
+                                // ممكن تعيد محاولة التسجيل أو أي حاجة مناسبة
+                              },
+                            ),
+                          ),
+                        );
+                      } else if (state is SignUpSuccessState) {
+                        showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: Text("Success"),
+                            content: Text("Sign Up Successful! Please Login."),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  viewModel.doIntent(NavigateToLogin());
+                                },
+                                child: Text("OK"),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
                     }
                   },
                   builder: (context, state) {
                     return ElevatedButton(
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
-                          viewModel.authRepo.signUp(
-                            SignUpRequest(
-                              firstName: firstcontroller.text,
-                              lastName: secondcontroller.text,
-                              rePassword: confirmcontroller.text,
-                              username: usercontroller.text,
-                              email: emailcontroller.text,
-                              password: passcontroller.text,
-                              phone: phonecontroller.text,
-                            ),
-                          );
+                          viewModel.doIntent(SignUpButtonClicked(
+                            userName: usercontroller.text.trim(),
+                            firstName: firstcontroller.text.trim(),
+                            lastName: secondcontroller.text.trim(),
+                            email: emailcontroller.text.trim(),
+                            password: passcontroller.text,
+                            confirmPassword: confirmcontroller.text,
+                            phone: phonecontroller.text.trim(),
+                          ));
                         }
+
                       },
-                      child: Text("SignUp",),
+                      child: Text("Sign Up"),
                     );
                   },
                 ),
+
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 20 ),
                   child: Row(
@@ -193,10 +230,7 @@ class _SignupState extends State<SignUpScreen> {
                       ),
                       InkWell(
                           onTap: () {
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen()));
+                            viewModel.doIntent(NavigateToLogin());
                           },
                           child: Text(
                             "Login",

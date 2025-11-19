@@ -8,23 +8,30 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 abstract class ApiModule{
   @singleton
   ApiClient provideApiClient(Dio dio){
-    return ApiClient(dio,baseUrl: 'https://ecommerce.routemisr.com/api/v1/');
+    return ApiClient(dio,baseUrl: 'https://exam.elevateegy.com/api/v1/');
   }
 
   @singleton
   Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger ){
-    var dio =  Dio(options);
+    var dio =  Dio(
+      options..headers = {
+        "Content-Type": "application/json",
+      },
+    );
     dio.interceptors.add(dioLogger);
     return dio;
   }
+
 
   @singleton
   PrettyDioLogger provideDioLogger(){
     return PrettyDioLogger(
       requestHeader: true,
       requestBody: true,
+      responseHeader: false,
       responseBody: true,
-      responseHeader: true,
+      error: true,
+      compact: false,
     );
   }
 
