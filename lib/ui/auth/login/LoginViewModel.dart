@@ -2,49 +2,101 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/model/request/login_request.dart';
 import 'package:online_exam/domain/model/UserModel.dart';
-import 'package:online_exam/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/domain/result.dart';
+import 'package:online_exam/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/ui/auth/login/LoginContract.dart';
+import 'package:online_exam/ui/common/widget_state.dart';
 
 @injectable
-class LoginViewModel extends Bloc<LoginIntent, LoginState> {
+class LoginViewModel extends Cubit<LoginState> {
   final AuthRepo authRepo;
 
-  LoginViewModel(this.authRepo) : super(LoginInitial()) {
-    on<LoginButtonClicked>(_onLoginClicked);
-    on<EmailChanged>(_onEmailChanged);
-  }
+  LoginLoadedState currentState = LoginLoadedState(
+    emailState: Idle(),
+    passwordState: Idle(),
+    rememberMe: false,
+    loginState: Idle(),
+  );
 
-  Future<void> _onLoginClicked(
-      LoginButtonClicked event,
-      Emitter<LoginState> emit,
-      ) async {
-    emit(LoginLoading());
+  LoginViewModel(this.authRepo)
+      : super(LoginLoadedState(
+    emailState: Idle(),
+    passwordState: Idle(),
+    rememberMe: false,
+    loginState: Idle(),
+  ));
 
-    final result = await authRepo.login(LoginRequest(
-      email: event.email,
-      password: event.password,
-    ));
+  void doIntent(LoginIntent intent) {
+    switch (intent) {
+      case LoginInitialState():
+        emit(LoginLoadedState(
+          emailState: Idle(),
+          passwordState: Idle(),
+          rememberMe: false,
+          loginState: Idle(),
+        ));
+        break;
 
-    if (result is Success<UserModel>) {
-      emit(LoginSuccess(result.data));
-    } else if (result is Failure<UserModel>) {
-      emit(LoginError(result.exception.toString()));
+      case EmailChanged():
+        final e = intent as EmailChanged;
+        _sendState(currentState.copyWith(
+          emailState: Loaded(e.email),
+        ));
+        break;
+
+      case PasswordChanged():
+        final p = intent as PasswordChanged;
+        _sendState(currentState.copyWith(
+          passwordState: Loaded(p.password),
+        ));
+        break;
+
+      case RememberMeToggled():
+        final r = intent as RememberMeToggled;
+        _sendState(currentState.copyWith(
+          rememberMe: r.remember,
+        ));
+        break;
+
+      case LoginButtonClicked():
+        _handleLogin();
+        break;
+
+      case ForgotPasswordClicked():
+        emit(NavigateToForgotPasswordEvent());
+        break;
+
+      case SignUpClicked():
+        emit(NavigateToSignUpEvent());
+        break;
     }
   }
 
-  void _onEmailChanged(
-      EmailChanged event,
-      Emitter<LoginState> emit,
-      ) {
-    final email = event.email.trim();
-    final isValid =
-    RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  void _handleLogin() async {
+    final email = (currentState.emailState as Loaded<String>).data ?? "";
+    final password = (currentState.passwordState as Loaded<String>).data ?? "";
 
-    if (!isValid) {
-      emit(LoginEmailError("Please enter a valid email address"));
-    } else {
-      emit(LoginInitial());
+    _sendState(currentState.copyWith(loginState: Loading()));
+
+    final result = await authRepo.login(
+      LoginRequest(email: email, password: password),
+    );
+
+    switch (result) {
+      case Success<UserModel>():
+        emit(NavigateToHomeEvent(result.data));
+        break;
+
+      case Failure<UserModel>():
+        _sendState(currentState.copyWith(
+          loginState: ComponentError(result.exception),
+        ));
+        break;
     }
+  }
+
+  void _sendState(LoginLoadedState state) {
+    currentState = state;
+    emit(state);
   }
 }

@@ -140,12 +140,12 @@ class _SignupState extends State<SignUpScreen> {
                 Container(
                   width: double.infinity,
                   child: CustomTextField(
-                    keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.phone,
                       hintText: "phone number",
                       labelText: "Phone Number",
                       controller: phonecontroller,
                       validator: phoneValidator
-                      ),
+                  ),
                 ),
 
                 BlocConsumer<SignUpViewModel, SignUpState>(
