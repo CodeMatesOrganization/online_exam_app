@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
