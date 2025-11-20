@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:online_exam/domain/exceptions/custome_exception.dart';
+
 class AppErrorWidget extends StatelessWidget {
   Exception? exception;
   VoidCallback? onRetry;

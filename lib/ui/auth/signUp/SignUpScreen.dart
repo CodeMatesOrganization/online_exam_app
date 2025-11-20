@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
+import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
-import 'package:online_exam/ui/auth/signUp/widget/validator.dart';
+import 'package:online_exam/ui/widget/validator.dart';
 import 'package:online_exam/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/ui/widget/custome_text.dart';
 
@@ -16,43 +17,43 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignupState extends State<SignUpScreen> {
-  late TextEditingController usercontroller;
+  late TextEditingController userController;
 
-  late TextEditingController firstcontroller;
+  late TextEditingController firstController;
 
-  late TextEditingController secondcontroller;
+  late TextEditingController secondController;
 
-  late TextEditingController emailcontroller;
+  late TextEditingController emailController;
 
-  late TextEditingController passcontroller;
+  late TextEditingController passController;
 
-  late TextEditingController confirmcontroller;
+  late TextEditingController confirmController;
 
-  late TextEditingController phonecontroller;
+  late TextEditingController phoneController;
 
   late final SignUpViewModel viewModel;
   void initState() {
     super.initState();
-    usercontroller = TextEditingController();
-    firstcontroller = TextEditingController();
-    secondcontroller = TextEditingController();
-    emailcontroller = TextEditingController();
-    phonecontroller = TextEditingController();
-    passcontroller = TextEditingController();
-    confirmcontroller = TextEditingController();
+    userController = TextEditingController();
+    firstController = TextEditingController();
+    secondController = TextEditingController();
+    emailController = TextEditingController();
+    phoneController = TextEditingController();
+    passController = TextEditingController();
+    confirmController = TextEditingController();
     viewModel = getIt<SignUpViewModel>();
   }
 
   @override
   void dispose() {
     super.dispose();
-    usercontroller.dispose();
-    firstcontroller.dispose();
-    secondcontroller.dispose();
-    emailcontroller.dispose();
-    phonecontroller.dispose();
-    passcontroller.dispose();
-    confirmcontroller.dispose();
+    userController.dispose();
+    firstController.dispose();
+    secondController.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passController.dispose();
+    confirmController.dispose();
   }
 
 
@@ -84,7 +85,7 @@ class _SignupState extends State<SignUpScreen> {
                   child: CustomTextField(
                     hintText: "Enter your user name",
                     labelText: "UserName",
-                    controller: usercontroller,
+                    controller: userController,
                     validator: nulltyChecker,
                   ),
                 ),
@@ -94,7 +95,7 @@ class _SignupState extends State<SignUpScreen> {
                       child: CustomTextField(
                           hintText: "First Name",
                           labelText: "First Name",
-                          controller: firstcontroller,
+                          controller: firstController,
                           validator: nulltyChecker),
                     ),
                     Expanded(
@@ -102,7 +103,7 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Enter Second Name",
                         isPassword: false,
                         labelText: "Second Name",
-                        controller: secondcontroller,
+                        controller: secondController,
                         validator: nulltyChecker,
                       ),
                     ),
@@ -113,7 +114,7 @@ class _SignupState extends State<SignUpScreen> {
                   child: CustomTextField(
                       hintText: "Email",
                       labelText: "Email",
-                      controller: emailcontroller,
+                      controller: emailController,
                       validator: emailValidator),
                 ),
                 Row(children: [
@@ -122,7 +123,7 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Password",
                         isPassword: true,
                         labelText: "Password",
-                        controller: passcontroller,
+                        controller: passController,
                         validator: passwordValidator),
                   ),
                   Expanded(
@@ -130,10 +131,10 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Confirm Password",
                         isPassword: true,
                         labelText: "Confirm Password",
-                        controller: confirmcontroller,
+                        controller: confirmController,
                         validator: (val) => confirmPasswordValidator(
                             val,
-                            passcontroller.text
+                            passController.text
                         )),
                   ),
                 ]),
@@ -143,7 +144,7 @@ class _SignupState extends State<SignUpScreen> {
                     keyboardType: TextInputType.phone,
                       hintText: "phone number",
                       labelText: "Phone Number",
-                      controller: phonecontroller,
+                      controller: phoneController,
                       validator: phoneValidator
                       ),
                 ),
@@ -189,7 +190,12 @@ class _SignupState extends State<SignUpScreen> {
                             ],
                           ),
                         );
-                      }
+                      }else if (state is NavigateToLoginEvent) {
+                    Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                    );
+                    }
                     }
                   },
                   builder: (context, state) {
@@ -197,13 +203,13 @@ class _SignupState extends State<SignUpScreen> {
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
                           viewModel.doIntent(SignUpButtonClicked(
-                            userName: usercontroller.text.trim(),
-                            firstName: firstcontroller.text.trim(),
-                            lastName: secondcontroller.text.trim(),
-                            email: emailcontroller.text.trim(),
-                            password: passcontroller.text,
-                            confirmPassword: confirmcontroller.text,
-                            phone: phonecontroller.text.trim(),
+                            userName: userController.text.trim(),
+                            firstName: firstController.text.trim(),
+                            lastName: secondController.text.trim(),
+                            email: emailController.text.trim(),
+                            password: passController.text,
+                            confirmPassword: confirmController.text,
+                            phone: phoneController.text.trim(),
                           ));
                         }
 

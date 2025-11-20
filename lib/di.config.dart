@@ -25,6 +25,7 @@ import 'domain/useCase/auth/ForgotPassword.dart' as _i1016;
 import 'domain/useCase/auth/Login.dart' as _i629;
 import 'domain/useCase/auth/ResetPassword.dart' as _i936;
 import 'domain/useCase/auth/SignUp.dart' as _i425;
+import 'ui/auth/forgetPassword/ForgetPasswordViewModel.dart' as _i853;
 import 'ui/auth/login/LoginViewModel.dart' as _i905;
 import 'ui/auth/signUp/SignUpViewModel.dart' as _i584;
 
@@ -62,6 +63,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i936.ResetPasswordUseCase(gh<_i620.AuthRepo>()));
     gh.factory<_i425.SignupUseCase>(
         () => _i425.SignupUseCase(gh<_i620.AuthRepo>()));
+    gh.factory<_i853.ForgetPasswordViewModel>(
+        () => _i853.ForgetPasswordViewModel(gh<_i620.AuthRepo>()));
     gh.factory<_i905.LoginViewModel>(
         () => _i905.LoginViewModel(gh<_i620.AuthRepo>()));
     gh.factory<_i584.SignUpViewModel>(

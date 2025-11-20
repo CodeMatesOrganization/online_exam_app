@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/api/model/request/sign_up_request.dart';
@@ -40,8 +37,6 @@ class SignUpViewModel extends Cubit<SignUpState> {
       password: intent.password,
       phone: intent.phone,
     );
-
-    debugPrint("🔥 SignUpRequest JSON: ${jsonEncode(signUpRequest.toJson())}", wrapWidth: 1024);
 
     var result = await authRepo.signUp(signUpRequest);
 

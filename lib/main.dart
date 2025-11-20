@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
+import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/ui/common/bloc_observer.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/forget_password': (context) => ForgetPasswordScreen(),
           '/sign_up': (context) => SignUpScreen(),
+          'login': (context) => LoginScreen(),
         },
       ),
     );
