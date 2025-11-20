@@ -1,12 +1,14 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:online_exam/api/model/response/ServerErrorResponse.dart';
-import 'package:online_exam/domain/exceptions/custome_exception.dart';
+import 'package:online_exam/api/model/response/server_error_response.dart';
+import 'package:online_exam/domain/exceptions/custom_exceptions.dart';
 import 'package:online_exam/domain/result.dart';
 
 Future<Result<T>> executeApi<T>(Future<T> apiCall()) async {
   try {
     var result = await apiCall.call();
     return Success(result);
+
   } on DioException catch (ex) {
     switch (ex.type) {
       case DioExceptionType.connectionError:
@@ -14,41 +16,35 @@ Future<Result<T>> executeApi<T>(Future<T> apiCall()) async {
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
         return Failure(ConnectionError());
-      default:
-        {
-          final data = ex.response?.data;
-          final statusCode = ex.response?.statusCode;
-          ServerErrorResponse response = ServerErrorResponse.fromJson(data);
 
-          // تفاصيل الأخطاء
-          String errorDetails = "";
-          if (data != null && data['errors'] != null) {
-            if (data['errors'] is Map) {
-              data['errors'].forEach((key, value) {
-                errorDetails += "$key: $value\n";
-              });
-            } else {
-              errorDetails = data['errors'].toString();
-            }
+      default:
+        try {
+          final data = ex.response?.data;
+
+          if (data is Map<String, dynamic>) {
+            final response = ServerResponseError.fromJson(data);
+            return Failure(ServerError(
+              response.code ?? "",
+              response.message ?? "",
+            ));
           }
 
-          print("===== SERVER ERROR =====");
-          print("Status Code: $statusCode");
-          print("Message: ${response.message}");
-          print("Errors Details: $errorDetails");
-          print("Full Response Body: $data");
-          print("========================");
+          if (data is String) {
+            final response = ServerResponseError.fromJson(jsonDecode(data));
+            return Failure(ServerError(
+              response.code ?? "",
+              response.message ?? "",
+            ));
+          }
 
-          return Failure(ServerError(
-            message: response.message ?? "",
-            statusMessage: errorDetails.isNotEmpty ? errorDetails : response.statusMessage ?? "",
-          ));
+          return Failure(ServerError("", "Unknown server error"));
+        } catch (e) {
+          return Failure(ServerError("", "Invalid error format"));
         }
     }
-  } catch (ex) {
-    print("===== UNEXPECTED ERROR =====");
-    print(ex);
-    print("============================");
+  }
+
+  catch (e) {
     return Failure(UnExpectedError());
   }
 }

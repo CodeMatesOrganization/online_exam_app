@@ -1,185 +1,175 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_exam/core/theme/app_colors.dart';
+import 'package:online_exam/api/model/request/login_request.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/login/LoginContract.dart';
 import 'package:online_exam/ui/auth/login/LoginViewModel.dart';
-import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
+import 'package:online_exam/ui/widgets/CustomButton.dart';
+import 'package:online_exam/ui/widgets/custome_text.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  static const String routename = "Login";
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  bool rememberMe = false;
+  final formKey = GlobalKey<FormState>();
+  late TextEditingController emailController;
+  late TextEditingController passController;
+
+  late final LoginViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+    passController = TextEditingController();
+    viewModel = getIt<LoginViewModel>();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      appBar: AppBar(
-        title: const Text('Login'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: AppColors.black,
-        leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        onPressed: () {
-        Navigator.pop(context);
-        },)
-      ),
-      body: BlocConsumer<LoginViewModel, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Welcome ${state.user.firstName}!")),
-            );
-            // Navigator.pushReplacementNamed(context, '/home');
-          } else if (state is LoginEmailError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message)));
-          }
-        },
-        builder: (context, state) {
-          bool isLoading = state is LoginLoading;
-          bool isEmailError = state is LoginEmailError;
-
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: SingleChildScrollView(
+    return BlocProvider(
+      create: (_) => viewModel,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Login",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          centerTitle: false,
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Form(
+              key: formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
-                  const SizedBox(height: 4),
-                  TextFormField(
+                  const SizedBox(height: 25),
 
+                  /// Email Field
+                  CustomTextField(
+                    hintText: "Enter Email",
+                    isPassword: false,
+                    labelText: "Email",
                     controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      labelText: "Email",
+                    validator: (String? val) {
+                      RegExp emailRegex = RegExp(
+                          r"^[a-zA-Z0-9.!#$%&'*+-/=?^_{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+                      if (val == null || val.trim().isEmpty) {
+                        return 'this field is required';
+                      } else if (!emailRegex.hasMatch(val)) {
+                        return 'enter valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 18),
 
-                      labelStyle: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      hintText: "Enter your email",
-                      hintStyle: TextStyle(
-                        color: Colors.grey,
-                      ),
-                      errorText:
-                      isEmailError ? "This email is not valid" : null,
-                    ),
-                    onChanged: (value) {
-                      context.read<LoginViewModel>().add(EmailChanged(value));
+                  /// Password Field
+                  CustomTextField(
+                    hintText: "Enter Password",
+                    isPassword: true,
+                    labelText: "Password",
+                    controller: passController,
+                    validator: (String? val) {
+                      if (val == null || val.isEmpty) {
+                        return 'this field is required';
+                      } else if (val.length < 6) {
+                        return 'password must be at least 6 characters';
+                      }
+                      return null;
                     },
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    "Password",
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  TextFormField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: "Enter your password",
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: rememberMe,
-                        onChanged: (value) {
-                          setState(() => rememberMe = value ?? false);
-                        },
-                      ),
-                      const Text("Remember me"),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text(
-                          "Forget password?",
-                          style: TextStyle(
-                            color: AppColors.black,
-                            decoration: TextDecoration.underline,
+                  const SizedBox(height: 14),
+
+                  /// Remember me + Forget Password Row
+                  BlocBuilder<LoginViewModel, LoginState>(
+                    builder: (context, state) {
+                      final loaded = state is LoginLoadedState
+                          ? state
+                          : viewModel.currentState;
+
+                      return Row(
+                        children: [
+                          Checkbox(
+                            value: loaded.rememberMe,
+                            onChanged: (v) {
+                              viewModel.doIntent(RememberMeToggled(v ?? false));
+                            },
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                      final intent = LoginButtonClicked(
-                        emailController.text,
-                        passwordController.text,
+                          const Text("Remember me"),
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "Forget password?",
+                              style:
+                              TextStyle(color: Colors.grey, fontSize: 13),
+                            ),
+                          ),
+                        ],
                       );
-                      context.read<LoginViewModel>().add(intent);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isLoading
-                          ? AppColors.gray
-                          : AppColors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      minimumSize: const Size(double.infinity, 48),
-                    ),
-                    child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
-                        : const Text(
-                      "Login",
-                      style: TextStyle(fontSize: 16 , color: AppColors.white),
-                    ),
                   ),
-                  const SizedBox(height: 24),
+
+                  const SizedBox(height: 18),
+
+                  /// Login Button
+                  BlocBuilder<LoginViewModel, LoginState>(
+                    builder: (context, state) {
+                      return AppButton(
+                        title: "Login",
+                        isEnabled: true,
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            viewModel.doIntent(LoginButtonClicked());
+                            viewModel.authRepo.login(
+                              LoginRequest(
+                                email: emailController.text,
+                                password: passController.text,
+                              ),
+                            );
+                          }
+                        },
+                      );
+
+                    },
+                  ),
+
+                  const SizedBox(height: 22),
+
+                  /// Signup Link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don’t have an account? "),
+                      const Text("Don't have an account?",
+                          style: TextStyle(fontSize: 15)),
+                      const SizedBox(width: 6),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BlocProvider(
-                                create: (context) => getIt<SignUpViewModel>(), // <== هنا الحل
-                              //  child: const SignUpScreen(),
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: () {},
                         child: const Text(
-                          "Sign Up",
+                          "Sign up",
                           style: TextStyle(
-                            color: AppColors.blue,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              color: Color(0xFF0056D6),
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
-
                     ],
                   ),
-                  const SizedBox(height: 40),
                 ],
               ),
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

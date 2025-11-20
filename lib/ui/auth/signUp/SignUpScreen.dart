@@ -5,7 +5,7 @@ import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpContract.dart';
 import 'package:online_exam/ui/auth/signUp/SignUpViewModel.dart';
-import 'package:online_exam/ui/widget/validator.dart';
+import 'package:online_exam/ui/auth/signUp/widget/validator.dart';
 import 'package:online_exam/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/ui/widget/custome_text.dart';
 
@@ -17,43 +17,43 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignupState extends State<SignUpScreen> {
-  late TextEditingController userController;
+  late TextEditingController usercontroller;
 
-  late TextEditingController firstController;
+  late TextEditingController firstcontroller;
 
-  late TextEditingController secondController;
+  late TextEditingController secondcontroller;
 
-  late TextEditingController emailController;
+  late TextEditingController emailcontroller;
 
-  late TextEditingController passController;
+  late TextEditingController passcontroller;
 
-  late TextEditingController confirmController;
+  late TextEditingController confirmcontroller;
 
-  late TextEditingController phoneController;
+  late TextEditingController phonecontroller;
 
   late final SignUpViewModel viewModel;
   void initState() {
     super.initState();
-    userController = TextEditingController();
-    firstController = TextEditingController();
-    secondController = TextEditingController();
-    emailController = TextEditingController();
-    phoneController = TextEditingController();
-    passController = TextEditingController();
-    confirmController = TextEditingController();
+    usercontroller = TextEditingController();
+    firstcontroller = TextEditingController();
+    secondcontroller = TextEditingController();
+    emailcontroller = TextEditingController();
+    phonecontroller = TextEditingController();
+    passcontroller = TextEditingController();
+    confirmcontroller = TextEditingController();
     viewModel = getIt<SignUpViewModel>();
   }
 
   @override
   void dispose() {
     super.dispose();
-    userController.dispose();
-    firstController.dispose();
-    secondController.dispose();
-    emailController.dispose();
-    phoneController.dispose();
-    passController.dispose();
-    confirmController.dispose();
+    usercontroller.dispose();
+    firstcontroller.dispose();
+    secondcontroller.dispose();
+    emailcontroller.dispose();
+    phonecontroller.dispose();
+    passcontroller.dispose();
+    confirmcontroller.dispose();
   }
 
 
@@ -85,7 +85,7 @@ class _SignupState extends State<SignUpScreen> {
                   child: CustomTextField(
                     hintText: "Enter your user name",
                     labelText: "UserName",
-                    controller: userController,
+                    controller: usercontroller,
                     validator: nulltyChecker,
                   ),
                 ),
@@ -95,7 +95,7 @@ class _SignupState extends State<SignUpScreen> {
                       child: CustomTextField(
                           hintText: "First Name",
                           labelText: "First Name",
-                          controller: firstController,
+                          controller: firstcontroller,
                           validator: nulltyChecker),
                     ),
                     Expanded(
@@ -103,7 +103,7 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Enter Second Name",
                         isPassword: false,
                         labelText: "Second Name",
-                        controller: secondController,
+                        controller: secondcontroller,
                         validator: nulltyChecker,
                       ),
                     ),
@@ -114,7 +114,7 @@ class _SignupState extends State<SignUpScreen> {
                   child: CustomTextField(
                       hintText: "Email",
                       labelText: "Email",
-                      controller: emailController,
+                      controller: emailcontroller,
                       validator: emailValidator),
                 ),
                 Row(children: [
@@ -123,7 +123,7 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Password",
                         isPassword: true,
                         labelText: "Password",
-                        controller: passController,
+                        controller: passcontroller,
                         validator: passwordValidator),
                   ),
                   Expanded(
@@ -131,71 +131,72 @@ class _SignupState extends State<SignUpScreen> {
                         hintText: "Confirm Password",
                         isPassword: true,
                         labelText: "Confirm Password",
-                        controller: confirmController,
+                        controller: confirmcontroller,
                         validator: (val) => confirmPasswordValidator(
                             val,
-                            passController.text
+                            passcontroller.text
                         )),
                   ),
                 ]),
                 Container(
                   width: double.infinity,
                   child: CustomTextField(
-                    keyboardType: TextInputType.phone,
+                      keyboardType: TextInputType.phone,
                       hintText: "phone number",
                       labelText: "Phone Number",
-                      controller: phoneController,
+                      controller: phonecontroller,
                       validator: phoneValidator
-                      ),
+                  ),
                 ),
 
                 BlocConsumer<SignUpViewModel, SignUpState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
+                    // 1. Loading
                     if (state is SignUpLoadingState) {
                       showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (_) => Center(child: CircularProgressIndicator()),
                       );
-                    } else {
-                      Navigator.of(context).pop(); // يقفل الـ loading
-                      if (state is SignUpErrorState) {
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text("Error"),
-                            content: AppErrorWidget(
-                              exception: state.exception,
-                              onRetry: () {
-                                Navigator.pop(context); // يغلق الديالوج
-                                // ممكن تعيد محاولة التسجيل أو أي حاجة مناسبة
-                              },
-                            ),
-                          ),
-                        );
-                      } else if (state is SignUpSuccessState) {
-                        showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: Text("Success"),
-                            content: Text("Sign Up Successful! Please Login."),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  viewModel.doIntent(NavigateToLogin());
-                                },
-                                child: Text("OK"),
-                              ),
-                            ],
-                          ),
-                        );
-                      }else if (state is NavigateToLoginEvent) {
-                    Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
-                    );
                     }
+                    // 2. Error
+                    else if (state is SignUpErrorState) {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text("Error"),
+                          content: AppErrorWidget(
+                            exception: state.exception,
+                            onRetry: () => Navigator.pop(context),
+                          ),
+                        ),
+                      );
+                    }
+                    // 3. Success
+                    else if (state is SignUpSuccessState) {
+                      Navigator.of(context, rootNavigator: true).pop(); // أغلق loading
+                      await showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text("Success"),
+                          content: Text("Sign Up Successful! Please Login."),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("OK"),
+                            ),
+                          ],
+                        ),
+                      );
+                     viewModel.doIntent(NavigateToLogin());
+                    }
+                    // 4. Navigate directly
+                    else if (state is NavigateToLoginEvent) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (_) => LoginScreen()),
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -203,13 +204,13 @@ class _SignupState extends State<SignUpScreen> {
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
                           viewModel.doIntent(SignUpButtonClicked(
-                            userName: userController.text.trim(),
-                            firstName: firstController.text.trim(),
-                            lastName: secondController.text.trim(),
-                            email: emailController.text.trim(),
-                            password: passController.text,
-                            confirmPassword: confirmController.text,
-                            phone: phoneController.text.trim(),
+                            userName: usercontroller.text.trim(),
+                            firstName: firstcontroller.text.trim(),
+                            lastName: secondcontroller.text.trim(),
+                            email: emailcontroller.text.trim(),
+                            password: passcontroller.text,
+                            confirmPassword: confirmcontroller.text,
+                            phone: phonecontroller.text.trim(),
                           ));
                         }
 
@@ -232,13 +233,15 @@ class _SignupState extends State<SignUpScreen> {
                       ),
                       InkWell(
                           onTap: () {
+                            print("Button clicked");
+
                             viewModel.doIntent(NavigateToLogin());
                           },
                           child: Text(
                             "Login",
                             style: TextStyle(
                                 color: AppColors.blue,
-                                fontWeight: FontWeight.w600),
+                                fontWeight: FontWeight.w900),
                           )),
                     ],
                   ),
