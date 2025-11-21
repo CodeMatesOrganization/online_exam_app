@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:flutter/material.dart' as _i409;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
@@ -28,6 +29,8 @@ import 'domain/useCase/auth/SignUp.dart' as _i425;
 import 'ui/auth/forgetPassword/ForgetPasswordViewModel.dart' as _i853;
 import 'ui/auth/login/LoginViewModel.dart' as _i905;
 import 'ui/auth/signUp/SignUpViewModel.dart' as _i584;
+import 'ui/auth/verifyCode/VerifyCode.dart' as _i611;
+import 'ui/auth/verifyCode/VerifyViewModel.dart' as _i951;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -47,6 +50,7 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i361.BaseOptions>(),
           gh<_i528.PrettyDioLogger>(),
         ));
+    gh.factory<_i611.VerifyCode>(() => _i611.VerifyCode(key: gh<_i409.Key>()));
     gh.singleton<_i332.ApiClient>(
         () => apiModule.provideApiClient(gh<_i361.Dio>()));
     gh.factory<_i731.AuthOnlineDataSource>(
@@ -69,6 +73,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i905.LoginViewModel(gh<_i620.AuthRepo>()));
     gh.factory<_i584.SignUpViewModel>(
         () => _i584.SignUpViewModel(gh<_i620.AuthRepo>()));
+    gh.factory<_i951.VerifyViewModel>(
+        () => _i951.VerifyViewModel(gh<_i620.AuthRepo>()));
     return this;
   }
 }

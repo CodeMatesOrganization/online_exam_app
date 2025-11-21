@@ -4,10 +4,15 @@ class ConnectionError implements Exception {
 }
 
 class ServerError implements Exception {
-  String message ;
-  String statusMessage ;
-  ServerError(this.message , this.statusMessage );
+  String message;
+  String statusMessage;
+  ServerError(this.message, this.statusMessage);
+
+  @override
+  String toString() => message.isNotEmpty ? message : "Unknown server error";
 }
+
+
 /// خطأ في البيانات المدخلة من المستخدم (مثل validation errors)
 class ValidationError implements Exception {
   final String message;
