@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordContract.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordViewModel.dart';
-import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/verifyCode/VerifyCode.dart';
-import 'package:online_exam/ui/widget/AppErrorWidget.dart';
-import 'package:online_exam/ui/widget/LoadingWidget.dart';
+
 import 'package:online_exam/ui/widget/custome_text.dart';
 import 'package:online_exam/ui/widget/validator.dart';
 
@@ -74,9 +72,7 @@ class _ForgetPasswordState extends State<ForgetPasswordScreen> {
                   ),
                   BlocConsumer<ForgetPasswordViewModel, ForgetPasswordState>(
                       listener: (context, state) async {
-                        print("ForgetPasswordState changed: $state"); // <-- هنا
                         if (state is ForgetPasswordLoadingState) {
-                          print("ForgetPasswordState LOADING: $state"); // <-- هنا
 
                           showDialog(
                             context: context,
@@ -85,9 +81,7 @@ class _ForgetPasswordState extends State<ForgetPasswordScreen> {
                             useRootNavigator: true,
                           );
                         }
-
                         else if (state is ForgetPasswordErrorState) {
-                          print("ForgetPasswordState ERROR: $state"); // <-- هنا
 
                           Navigator.of(context, rootNavigator: true).pop();
                           showDialog(

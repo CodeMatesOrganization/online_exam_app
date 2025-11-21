@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
+import 'package:online_exam/ui/auth/resetPassword/ResetPasswordScreen.dart';
 import 'package:online_exam/ui/auth/verifyCode/VerifyViewModel.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
@@ -79,7 +80,7 @@ class _VerifyCodeState extends State<VerifyCode> {
                 activeFillColor: AppColors.white,
                 inactiveFillColor: AppColors.babyBlue,
                 selectedColor: AppColors.white,
-                activeColor: AppColors.blue,
+                activeColor: AppColors.babyBlue,
                 inactiveColor: AppColors.white,
               ),
               animationDuration: Duration(milliseconds: 12),
@@ -90,14 +91,27 @@ class _VerifyCodeState extends State<VerifyCode> {
                 if (isValid) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (_) => LoginScreen()),
+                    MaterialPageRoute(builder: (_) => ResetPasswordScreen()),
                   );
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Invalid code, please try again")),
+                  String errorMessage = "";
+                  final currentState = viewModel.state;
+                  if (currentState is VerifyErrorState) {
+                    errorMessage = currentState.errorMessage;
+                  } else {
+                    errorMessage = "Something went wrong";
+                  }
+
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text("Error"),
+                      content: Text(errorMessage),
+                    ),
+                    useRootNavigator: true,
                   );
                 }
+
               },
             ),
             SizedBox(height: 20),

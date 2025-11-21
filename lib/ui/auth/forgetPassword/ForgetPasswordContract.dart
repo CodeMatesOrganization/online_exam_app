@@ -1,5 +1,3 @@
-
-import 'package:online_exam/api/model/response/forget_password_response.dart';
 import 'package:online_exam/ui/common/widget_state.dart';
 
 sealed class ForgetPasswordState {}

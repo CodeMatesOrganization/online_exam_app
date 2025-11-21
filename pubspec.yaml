@@ -46,6 +46,7 @@ dependencies:
   prefs: ^4.2.0
   pin_code_fields: ^8.0.1
   flutter_screenutil: ^5.9.3
+  shared_preferences: ^2.5.3
 
 
 dev_dependencies:
