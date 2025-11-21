@@ -4,7 +4,9 @@ import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordContract.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordViewModel.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
+import 'package:online_exam/ui/auth/verifyCode/VerifyCode.dart';
 import 'package:online_exam/ui/widget/AppErrorWidget.dart';
+import 'package:online_exam/ui/widget/LoadingWidget.dart';
 import 'package:online_exam/ui/widget/custome_text.dart';
 import 'package:online_exam/ui/widget/validator.dart';
 
@@ -71,60 +73,71 @@ class _ForgetPasswordState extends State<ForgetPasswordScreen> {
                         validator: emailValidator),
                   ),
                   BlocConsumer<ForgetPasswordViewModel, ForgetPasswordState>(
-                    listener: (context, state) {
-                      if (state is ForgetPasswordLoadingState) {
-                        showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) => Center(child: CircularProgressIndicator()),
-                        );
-                      } else {
-                        // أغلق dialog لو مفتوح
-                        if (Navigator.canPop(context)) Navigator.pop(context);
+                      listener: (context, state) async {
+                        print("ForgetPasswordState changed: $state"); // <-- هنا
+                        if (state is ForgetPasswordLoadingState) {
+                          print("ForgetPasswordState LOADING: $state"); // <-- هنا
 
-                        if (state is ForgetPasswordErrorState) {
                           showDialog(
                             context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text("Error"),
-                              content: AppErrorWidget(
-                                exception: state.exception,
-                                onRetry: () {
-                                  if (Navigator.canPop(context)) Navigator.pop(context);
-                                },
-                              ),
-                            ),
+                            barrierDismissible: false,
+                            builder: (_) => Center(child: CircularProgressIndicator()),
+                            useRootNavigator: true,
                           );
-                        } else if (state is ForgetPasswordSuccessState) {
-                          if (formKey.currentState!.validate()) {
-                            // تنفيذ navigation بعد انتهاء frame الحالي
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              viewModel.doIntent(NavigateToResetPassword());
-                            });
-                          }
-                        } else if (state is NavigateToResetPasswordEvent) {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            if (Navigator.canPop(context)) Navigator.pop(context);
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (_) => LoginScreen()),
-                            );
-                          });
                         }
-                      }
-                    },
 
-                    builder: (context, state) {
+                        else if (state is ForgetPasswordErrorState) {
+                          print("ForgetPasswordState ERROR: $state"); // <-- هنا
+
+                          Navigator.of(context, rootNavigator: true).pop();
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text("Error"),
+                              content: Text(state.exception),
+                            ),
+                            useRootNavigator: true,
+                          );
+                        }
+                        else if (state is ForgetPasswordSuccessState) {
+
+                          Navigator.of(context, rootNavigator: true).pop(); // close loading
+                          await showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              title: Text("Success"),
+                              content: Text("OTP sent to your email!"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text("OK"),
+                                )
+                              ],
+                            ),
+                            useRootNavigator: true,
+                          );
+
+                          // navigation after success dialog
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => VerifyCode()),
+                          );
+                        }
+                      },
+                      builder: (context, state) {
                       return ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            viewModel.doIntent(NavigateToResetPassword());
+                            viewModel.doIntent(
+                              ForgetPasswordButtonClicked(
+                                  email: emailController.text.trim()),
+                            );
                           }
                         },
                         child: Text("Continue"),
                       );
                     },
-                  ),
+                  )
                 ],
               ),
             ),

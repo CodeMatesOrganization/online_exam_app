@@ -1,5 +1,6 @@
  import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam/api/model/response/forget_password_response.dart';
 import 'package:online_exam/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/domain/result.dart';
 import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordContract.dart';
@@ -18,8 +19,8 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
     void doIntent(ForgetPasswordIntent intent) {
       if (intent is ForgetPasswordButtonClicked) {
         _onForgetPasswordClicked(intent);
-     }else if (intent is NavigateToResetPassword) {
-      emit(NavigateToResetPasswordEvent());
+     }else if (intent is NavigateToVerifyCode) {
+      emit(NavigateToVerifyCodeEvent());
     } else if (intent is ForgetPasswordInitialState) {
         emit(ForgetPasswordLoadedState(Idle()));
       }
@@ -28,12 +29,14 @@ class ForgetPasswordViewModel extends Cubit<ForgetPasswordState> {
   _onForgetPasswordClicked(ForgetPasswordButtonClicked intent) async {
     emit(ForgetPasswordLoadingState());
 
-    var result = await authRepo.forgetPassword(intent.email);
+    Result result = await authRepo.forgetPassword(intent.email);
 
-    if (result is Success<String>) {
-      emit(ForgetPasswordSuccessState(result.data));
-    } else if (result is Failure<String>) {
-      emit(ForgetPasswordErrorState(result.exception));
+    if (result is Success) {
+      emit(ForgetPasswordSuccessState());
+    } else if (result is Failure) {
+      emit(ForgetPasswordErrorState("Email not found"));
     }
   }
-}
+
+
+ }

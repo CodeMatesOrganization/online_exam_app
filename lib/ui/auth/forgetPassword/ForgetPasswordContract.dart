@@ -1,4 +1,5 @@
 
+import 'package:online_exam/api/model/response/forget_password_response.dart';
 import 'package:online_exam/ui/common/widget_state.dart';
 
 sealed class ForgetPasswordState {}
@@ -13,16 +14,14 @@ class ForgetPasswordLoadedState extends ForgetPasswordState {
 }
 
 class ForgetPasswordErrorState extends ForgetPasswordState {
-  final Exception exception;
+  final String exception;
   ForgetPasswordErrorState(this.exception);
 }
 
 class ForgetPasswordSuccessState extends ForgetPasswordState {
-  final String message;
-  ForgetPasswordSuccessState(this.message);
 }
 
-class NavigateToResetPasswordEvent extends ForgetPasswordState {}
+class NavigateToVerifyCodeEvent extends ForgetPasswordState {}
 
 sealed class ForgetPasswordIntent {}
 
@@ -34,4 +33,4 @@ class ForgetPasswordButtonClicked extends ForgetPasswordIntent {
   ForgetPasswordButtonClicked({required this.email});
 }
 
-class NavigateToResetPassword extends ForgetPasswordIntent {}
+class NavigateToVerifyCode extends ForgetPasswordIntent {}
