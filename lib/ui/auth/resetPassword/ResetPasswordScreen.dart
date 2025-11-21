@@ -4,7 +4,6 @@ import 'package:online_exam/di.dart';
 import 'package:online_exam/ui/auth/resetPassword/ResetPasswordContract.dart';
 import 'package:online_exam/ui/auth/resetPassword/ResetPasswordViewModel.dart';
 import 'package:online_exam/ui/auth/login/LoginScreen.dart';
-import 'package:online_exam/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/ui/widget/custome_text.dart';
 import 'package:online_exam/ui/widget/validator.dart';
 import 'package:shared_preferences/shared_preferences.dart';

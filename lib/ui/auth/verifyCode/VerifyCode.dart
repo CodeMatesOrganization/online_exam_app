@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/di.dart';
-import 'package:online_exam/ui/auth/login/LoginScreen.dart';
 import 'package:online_exam/ui/auth/resetPassword/ResetPasswordScreen.dart';
 import 'package:online_exam/ui/auth/verifyCode/VerifyViewModel.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
