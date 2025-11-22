@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:online_exam/Features/Auth/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
+import 'package:online_exam/Features/Auth/ui/auth/login/LoginScreen.dart';
+import 'package:online_exam/Features/Auth/ui/auth/resetPassword/ResetPasswordScreen.dart';
+import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpScreen.dart';
+import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpViewModel.dart';
+import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyCode.dart';
+import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
 import 'di.dart';
 import 'package:get_it/get_it.dart';
-import 'ui/auth/signUp/SignUpScreen.dart';
-import 'ui/auth/signUp/SignUpViewModel.dart';
-import 'ui/auth/verifyCode/VerifyCode.dart';
-import 'ui/auth/verifyCode/VerifyViewModel.dart';
-import 'ui/auth/forgetPassword/ForgetPasswordScreen.dart';
-import 'ui/auth/login/LoginScreen.dart';
-import 'ui/auth/resetPassword/ResetPasswordScreen.dart';
+
 
 void main() {
   configureDependencies();
