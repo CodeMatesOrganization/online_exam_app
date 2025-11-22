@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:online_exam/api/model/request/login_request.dart';
+import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
+import 'package:online_exam/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
 import 'package:online_exam/ui/auth/login/LoginContract.dart';
 import 'package:online_exam/ui/auth/login/LoginViewModel.dart';
-import 'package:online_exam/ui/widgets/CustomButton.dart';
-import 'package:online_exam/ui/widgets/custome_text.dart';
+import 'package:online_exam/ui/auth/signUp/SignUpScreen.dart';
+import 'package:online_exam/ui/widget/validator.dart';
+import 'package:online_exam/ui/widget/AppErrorWidget.dart';
+import 'package:online_exam/ui/widget/custome_text.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routename = "Login";
+  static const String routename = "/login";
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final formKey = GlobalKey<FormState>();
+class _LoginState extends State<LoginScreen> {
   late TextEditingController emailController;
   late TextEditingController passController;
-
   late final LoginViewModel viewModel;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -30,137 +33,150 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   @override
+  void dispose() {
+    emailController.dispose();
+    passController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => viewModel,
+      create: (context) => viewModel,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "Login",
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0,
           centerTitle: false,
-          iconTheme: const IconThemeData(color: Colors.black),
+          title: Text(
+            "Login",
+            style: TextStyle(
+              color: AppColors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Form(
-              key: formKey,
+          child: Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 25),
-
-                  /// Email Field
                   CustomTextField(
                     hintText: "Enter Email",
-                    isPassword: false,
                     labelText: "Email",
                     controller: emailController,
-                    validator: (String? val) {
-                      RegExp emailRegex = RegExp(
-                          r"^[a-zA-Z0-9.!#$%&'*+-/=?^_{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-                      if (val == null || val.trim().isEmpty) {
-                        return 'this field is required';
-                      } else if (!emailRegex.hasMatch(val)) {
-                        return 'enter valid email';
-                      }
-                      return null;
-                    },
+                    validator: emailValidator,
                   ),
                   const SizedBox(height: 18),
-
-                  /// Password Field
                   CustomTextField(
                     hintText: "Enter Password",
                     isPassword: true,
                     labelText: "Password",
                     controller: passController,
-                    validator: (String? val) {
-                      if (val == null || val.isEmpty) {
-                        return 'this field is required';
-                      } else if (val.length < 6) {
-                        return 'password must be at least 6 characters';
-                      }
-                      return null;
-                    },
+                    validator: passwordValidator,
                   ),
                   const SizedBox(height: 14),
-
-                  /// Remember me + Forget Password Row
-                  BlocBuilder<LoginViewModel, LoginState>(
-                    builder: (context, state) {
-                      final loaded = state is LoginLoadedState
-                          ? state
-                          : viewModel.currentState;
-
-                      return Row(
-                        children: [
-                          Checkbox(
-                            value: loaded.rememberMe,
-                            onChanged: (v) {
-                              viewModel.doIntent(RememberMeToggled(v ?? false));
-                            },
-                          ),
-                          const Text("Remember me"),
-                          const Spacer(),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              "Forget password?",
-                              style:
-                              TextStyle(color: Colors.grey, fontSize: 13),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: false,
+                        onChanged: (_) {},
+                      ),
+                      const Text("Remember me"),
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          viewModel.doIntent(ForgetPasswordButtonClicked());
+                        },
+                        child: const Text(
+                          "Forget password?",
+                          style: TextStyle(color: AppColors.gray, fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 18),
+                  BlocConsumer<LoginViewModel, LoginState>(
+                    listener: (context, state) async {
+                      if (state is LoginLoadingState) {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (_) => const Center(
+                              child: CircularProgressIndicator(
+                                  color: AppColors.blue)),
+                        );
+                      } else if (state is LoginErrorState) {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text("Error"),
+                            content: AppErrorWidget(
+                              exception: state.exception,
+                              onRetry: () => Navigator.pop(context),
                             ),
                           ),
-                        ],
-                      );
+                        );
+                      } else if (state is LoginSuccessState) {
+                        Navigator.of(context, rootNavigator: true).pop();
+                        await showDialog(
+                          context: context,
+                          builder: (_) => AlertDialog(
+                            title: const Text("Success"),
+                            content: const Text("Login Successful!"),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("OK"),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else if (state is NavigateToForgotPasswordEvent) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => ForgetPasswordScreen()),
+                        );
+                      } else if (state is NavigateToSignUpEvent) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => SignUpScreen()),
+                        );
+                      }
                     },
-                  ),
-
-                  const SizedBox(height: 18),
-
-                  /// Login Button
-                  BlocBuilder<LoginViewModel, LoginState>(
                     builder: (context, state) {
-                      return AppButton(
-                        title: "Login",
-                        isEnabled: true,
+                      return ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            viewModel.doIntent(LoginButtonClicked());
-                            viewModel.authRepo.login(
-                              LoginRequest(
-                                email: emailController.text,
-                                password: passController.text,
-                              ),
-                            );
+                            viewModel.doIntent(LoginButtonClicked(
+                              email: emailController.text.trim(),
+                              password: passController.text.trim(),
+                            ));
                           }
                         },
+                        child: const Text("Login"),
                       );
-
                     },
                   ),
-
-                  const SizedBox(height: 22),
-
-                  /// Signup Link
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Don't have an account?",
-                          style: TextStyle(fontSize: 15)),
-                      const SizedBox(width: 6),
-                      GestureDetector(
-                        onTap: () {},
-                        child: const Text(
+                      const Text("Don't have an account?"),
+                      const SizedBox(width: 10),
+                      InkWell(
+                        onTap: () {
+                          viewModel.doIntent(SignUpClicked());
+                        },
+                        child: Text(
                           "Sign up",
                           style: TextStyle(
-                              color: Color(0xFF0056D6),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                            color: AppColors.blue,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
                     ],

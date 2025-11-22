@@ -27,14 +27,14 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           theme: AppTheme.generalTheme,
-          initialRoute: '/forget_password',
+          initialRoute: '/login',
           routes: {
             '/forget_password': (context) => ForgetPasswordScreen(),
             '/sign_up': (context) => BlocProvider(
               create: (_) => GetIt.instance<SignUpViewModel>(),
               child: SignUpScreen(),
             ),
-            'login': (context) => LoginScreen(),
+            '/login': (context) => LoginScreen(),
             '/verify_code': (context) => BlocProvider(
               create: (_) => GetIt.instance<VerifyViewModel>(),
               child: VerifyCode(),

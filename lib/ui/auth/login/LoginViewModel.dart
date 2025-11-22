@@ -11,92 +11,34 @@ import 'package:online_exam/ui/common/widget_state.dart';
 class LoginViewModel extends Cubit<LoginState> {
   final AuthRepo authRepo;
 
-  LoginLoadedState currentState = LoginLoadedState(
-    emailState: Idle(),
-    passwordState: Idle(),
-    rememberMe: false,
-    loginState: Idle(),
-  );
-
-  LoginViewModel(this.authRepo)
-      : super(LoginLoadedState(
-    emailState: Idle(),
-    passwordState: Idle(),
-    rememberMe: false,
-    loginState: Idle(),
-  ));
+  LoginViewModel(this.authRepo) : super(LoginLoadedState(Idle()));
 
   void doIntent(LoginIntent intent) {
-    switch (intent) {
-      case LoginInitialState():
-        emit(LoginLoadedState(
-          emailState: Idle(),
-          passwordState: Idle(),
-          rememberMe: false,
-          loginState: Idle(),
-        ));
-        break;
-
-      case EmailChanged():
-        final e = intent as EmailChanged;
-        _sendState(currentState.copyWith(
-          emailState: Loaded(e.email),
-        ));
-        break;
-
-      case PasswordChanged():
-        final p = intent as PasswordChanged;
-        _sendState(currentState.copyWith(
-          passwordState: Loaded(p.password),
-        ));
-        break;
-
-      case RememberMeToggled():
-        final r = intent as RememberMeToggled;
-        _sendState(currentState.copyWith(
-          rememberMe: r.remember,
-        ));
-        break;
-
-      case LoginButtonClicked():
-        _handleLogin();
-        break;
-
-      case ForgotPasswordClicked():
-        emit(NavigateToForgotPasswordEvent());
-        break;
-
-      case SignUpClicked():
-        emit(NavigateToSignUpEvent());
-        break;
+    if (intent is LoginButtonClicked) {
+      _handleLogin(intent);
+    } else if (intent is ForgetPasswordButtonClicked) {
+      emit(NavigateToForgotPasswordEvent());
+    } else if (intent is SignUpClicked) {
+      emit(NavigateToSignUpEvent());
+    } else if (intent is LoginInitialState) {
+      emit(LoginLoadedState(Idle()));
     }
   }
 
-  void _handleLogin() async {
-    final email = (currentState.emailState as Loaded<String>).data ?? "";
-    final password = (currentState.passwordState as Loaded<String>).data ?? "";
+  void _handleLogin(LoginButtonClicked intent) async {
+    emit(LoginLoadingState());
 
-    _sendState(currentState.copyWith(loginState: Loading()));
-
-    final result = await authRepo.login(
-      LoginRequest(email: email, password: password),
+    final request = LoginRequest(
+      email: intent.email,
+      password: intent.password,
     );
 
-    switch (result) {
-      case Success<UserModel>():
-        emit(NavigateToHomeEvent(result.data));
-        break;
+    var result = await authRepo.login(request);
 
-      case Failure<UserModel>():
-        _sendState(currentState.copyWith(
-          loginState: ComponentError(result.exception),
-        ));
-        break;
+    if (result is Success<UserModel>) {
+      emit(LoginSuccessState(result.data));
+    } else if (result is Failure<UserModel>) {
+      emit(LoginErrorState(result.exception));
     }
-  }
-
-  void _sendState(LoginLoadedState state) {
-    currentState = state;
-    emit(state);
   }
 }
