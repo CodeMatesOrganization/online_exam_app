@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam/core/theme/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
-  final String labelText;
+  final String? labelText;
   final bool isPassword;
+  final bool isSearch;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -11,9 +13,10 @@ class CustomTextField extends StatefulWidget {
   CustomTextField({
     required this.hintText,
     required this.controller,
-    required this.labelText,
+     this.labelText,
     this.validator,
     this.keyboardType,
+    this.isSearch = false,
     this.isPassword = false,
   });
 
@@ -42,6 +45,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
+          prefixIcon: widget.isSearch ? const Icon(Icons.search) : null,
+          prefixIconColor: AppColors.gray,
           suffixIcon: widget.isPassword
               ? IconButton(
             icon: Icon(
