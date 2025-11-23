@@ -86,7 +86,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   if (state is SubjectSuccessState) {
                     final subjects = state.subjects; // حسب الـ SubjectsResponse
                     return Column(
-                      children: subjects!.map((subj) =>
+                      children: subjects.map((subj) =>
                           SubjectCard(name: subj.name ?? "", icon: subj.icon ?? " ") // ممكن تختار أي أيقونة ديناميكي
                       ).toList(),
                     );

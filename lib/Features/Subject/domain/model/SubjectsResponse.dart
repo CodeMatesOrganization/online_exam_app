@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
-import 'package:online_exam/Features/Subject/domain/model/SubjectsResponse.dart';
 
 part 'SubjectsResponse.g.dart';
 
