@@ -11,7 +11,7 @@ class VerifyCode extends StatefulWidget {
   static const String routename = "/verify_code";
 
 
-  const VerifyCode( {super.key});
+  const VerifyCode();
 
   @override
   _VerifyCodeState createState() => _VerifyCodeState();
