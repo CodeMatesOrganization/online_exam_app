@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/Features/Auth/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/Features/Auth/ui/widget/custome_text.dart';
-import 'package:online_exam/Features/Subject/ui/Subject/SubjectContract.dart';
-import 'package:online_exam/Features/Subject/ui/Subject/SubjectViewModel.dart';
+import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
+import 'package:online_exam/Features/Subject/ui/Subjects/SubjectViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/widgets/SubjectCard.dart';
 import 'package:online_exam/di.dart';
 

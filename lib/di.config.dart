@@ -39,7 +39,7 @@ import 'Features/Subject/data/dataSource/HomeOnlineDataSource.dart' as _i530;
 import 'Features/Subject/data/repos/HomeRepoImpl.dart' as _i191;
 import 'Features/Subject/domain/repositories/HomeRepo.dart' as _i494;
 import 'Features/Subject/domain/useCase/Subject.dart' as _i193;
-import 'Features/Subject/ui/Subject/SubjectViewModel.dart' as _i890;
+import 'Features/Subject/ui/Subjects/SubjectViewModel.dart' as _i890;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt

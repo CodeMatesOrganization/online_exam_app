@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
 import 'package:online_exam/Features/Subject/domain/repositories/HomeRepo.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
-import 'package:online_exam/Features/Subject/ui/Subject/SubjectContract.dart';
+import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
 
 @injectable
 class SubjectViewModel extends Cubit<SubjectState> {

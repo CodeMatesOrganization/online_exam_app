@@ -9,7 +9,7 @@ import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyCode.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/HomeScreen.dart';
-import 'package:online_exam/Features/Subject/ui/Subject/SubjectScreen.dart';
+import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
 import 'di.dart';
 import 'package:get_it/get_it.dart';
