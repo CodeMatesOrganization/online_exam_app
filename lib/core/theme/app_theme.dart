@@ -18,6 +18,32 @@ class AppTheme {
         fontSize: 20,
       ),
     ),
+    textTheme: const TextTheme(
+      headlineLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.black),
+      headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: AppColors.black),
+      headlineSmall: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: AppColors.blue),
+      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.black),
+      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: AppColors.black),
+      bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: AppColors.black),
+      bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal, color: Colors.grey),
+      labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Colors.grey),
+    ),
+    bottomAppBarTheme: BottomAppBarThemeData(
+      color: AppColors.blue,
+      shadowColor: AppColors.babyBlue,
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: AppColors.white,
+      elevation: 0,
+      selectedItemColor: AppColors.blue,
+      unselectedItemColor: AppColors.gray,
+      showUnselectedLabels: true,
+      selectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      unselectedLabelStyle: TextStyle(fontSize: 12),
+      type: BottomNavigationBarType.fixed,
+
+
+    ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
           backgroundColor: AppColors.blue,
