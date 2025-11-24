@@ -8,6 +8,7 @@ import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyCode.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart';
+import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/HomeScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           theme: AppTheme.generalTheme,
-          initialRoute: '/home',
+          initialRoute: '/home_subject',
           routes: {
             '/forget_password': (context) => ForgetPasswordScreen(),
             '/sign_up': (context) => BlocProvider(
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
             '/reset_password': (context) => ResetPasswordScreen(),
             '/home_subject': (context) => SubjectScreen(),
             '/home': (context) => HomeScreen(),
+            '/exam': (context) => ExamsScreen(),
 
           },
         );

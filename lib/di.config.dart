@@ -14,6 +14,7 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 
+import 'core/SharedPref.dart' as _i411;
 import 'Features/Auth/api/api_client.dart' as _i202;
 import 'Features/Auth/api/dataSource/AuthOnlineDataSourceImpl.dart' as _i749;
 import 'Features/Auth/data/dataSource/AuthOnlineDataSource.dart' as _i648;
@@ -38,8 +39,10 @@ import 'Features/Subject/api/dataSource/HomeOnlineDataSourceImpl.dart' as _i452;
 import 'Features/Subject/data/dataSource/HomeOnlineDataSource.dart' as _i530;
 import 'Features/Subject/data/repos/HomeRepoImpl.dart' as _i191;
 import 'Features/Subject/domain/repositories/HomeRepo.dart' as _i494;
+import 'Features/Subject/domain/useCase/Exams.dart' as _i484;
 import 'Features/Subject/domain/useCase/Subject.dart' as _i193;
-import 'Features/Subject/ui/Subjects/SubjectViewModel.dart' as _i890;
+import 'Features/Subject/ui/Exams/ExamsViewModel.dart' as _i1004;
+import 'Features/Subject/ui/Subjects/SubjectViewModel.dart' as _i1039;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -52,6 +55,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i200.VerifyCode>(() => const _i200.VerifyCode());
     gh.singleton<_i528.PrettyDioLogger>(() => apiModule.provideDioLogger());
     gh.singleton<_i361.BaseOptions>(() => apiModule.provideOptions());
+    gh.singleton<_i411.SharedPreferencesHelper>(
+      () => _i411.SharedPreferencesHelper(),
+    );
     gh.singleton<_i361.Dio>(
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
@@ -106,11 +112,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i494.HomeRepo>(
       () => _i191.HomeRepoImpl(gh<_i530.HomeOnlineDataSource>()),
     );
+    gh.factory<_i1004.ExamsViewModel>(
+      () => _i1004.ExamsViewModel(
+        gh<_i494.HomeRepo>(),
+        gh<_i411.SharedPreferencesHelper>(),
+      ),
+    );
+    gh.factory<_i484.SubjectUseCase>(
+      () => _i484.SubjectUseCase(gh<_i494.HomeRepo>()),
+    );
     gh.factory<_i193.SubjectUseCase>(
       () => _i193.SubjectUseCase(gh<_i494.HomeRepo>()),
     );
-    gh.factory<_i890.SubjectViewModel>(
-      () => _i890.SubjectViewModel(gh<_i494.HomeRepo>()),
+    gh.factory<_i1039.SubjectViewModel>(
+      () => _i1039.SubjectViewModel(gh<_i494.HomeRepo>()),
     );
     return this;
   }
