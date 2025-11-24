@@ -5,9 +5,12 @@ import 'package:dio/dio.dart';
 import 'package:online_exam/Features/Auth/api/api_client.dart';
 import 'package:online_exam/Features/Subject/api/api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class ApiModule{
+
+
   @singleton
   ApiClient provideApiClient(Dio dio){
     return ApiClient(dio,baseUrl: 'https://exam.elevateegy.com/api/v1/');
@@ -18,29 +21,14 @@ abstract class ApiModule{
      return HomeApiClient(dio , baseUrl: 'https://exam.elevateegy.com/api/v1/');
 }
     @singleton
-    Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger ){
+    Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger ) {
       var dio =  Dio(
         options..headers = {
           "Content-Type": "application/json",
           "token" :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWY0MDA3Y2MzZGViYTYwZDAzMWEyMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYzOTMzODczfQ.WntSYALngGEOYkI_9dXdo2XOloe-1qOFT8fj3Hn7xxM"
         },
       );
-      dio.interceptors.add(InterceptorsWrapper(
-        onRequest: (options, handler) {
-          debugPrint("➡️ Request: ${options.method} ${options.uri}");
-          return handler.next(options);
-        },
-        onResponse: (response, handler) {
-          debugPrint("⬅️ Response ${response.statusCode}: ${response.data}");
-          return handler.next(response);
-        },
-        onError: (e, handler) {
-          debugPrint("❌ Error: $e");
-          return handler.next(e);
-        },
-      ));
-
-      // مهم جدًا: ارجع Dio هنا
+      dio.interceptors.add(dioLogger);
       return dio;
     }
 

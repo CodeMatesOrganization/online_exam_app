@@ -19,6 +19,10 @@ class HomeRepoImpl implements HomeRepo {
     return homeOnlineDataSource.getAllSubjects();
   }
 
+    @override
+    Future<Result<SubjectModel>> getSubjectById(String subjectId) {
+      return homeOnlineDataSource.getSubjectById(subjectId);
+    }
   @override
   Future<Result<List<ExamModel>>> getAllExamsOnSubject(String subjectId) {
    return homeOnlineDataSource.getAllExamsOnSubjects(subjectId);

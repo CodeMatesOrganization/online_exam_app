@@ -5,6 +5,8 @@ import 'package:online_exam/Features/Subject/domain/result.dart';
 
 abstract class HomeOnlineDataSource {
   Future<Result<List<SubjectModel>>> getAllSubjects();
+  Future<Result<SubjectModel>> getSubjectById(String subjectId);
+
   Future<Result<List<ExamModel>>> getAllExamsOnSubjects(String subjectId);
 
 }

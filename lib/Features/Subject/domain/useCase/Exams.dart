@@ -1,6 +1,6 @@
 
 import 'package:injectable/injectable.dart';
-import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
+import 'package:online_exam/Features/Subject/domain/model/ExamModel.dart';
 import 'package:online_exam/Features/Subject/domain/repositories/HomeRepo.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
 
@@ -10,7 +10,7 @@ class SubjectUseCase {
 
   SubjectUseCase(this.homeRepo);
 
-  Future<Result<List<SubjectModel>>> invoke() {
-    return homeRepo.getAllSubjects();
+  Future<Result<List<ExamModel>>> invoke(String subjectId) {
+    return homeRepo.getAllExamsOnSubject(subjectId);
   }
 }

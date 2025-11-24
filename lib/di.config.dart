@@ -41,6 +41,7 @@ import 'Features/Subject/data/repos/HomeRepoImpl.dart' as _i191;
 import 'Features/Subject/domain/repositories/HomeRepo.dart' as _i494;
 import 'Features/Subject/domain/useCase/Exams.dart' as _i484;
 import 'Features/Subject/domain/useCase/Subject.dart' as _i193;
+import 'Features/Subject/domain/useCase/SubjectById.dart' as _i1031;
 import 'Features/Subject/ui/Exams/ExamsViewModel.dart' as _i1004;
 import 'Features/Subject/ui/Subjects/SubjectViewModel.dart' as _i1039;
 
@@ -123,6 +124,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i193.SubjectUseCase>(
       () => _i193.SubjectUseCase(gh<_i494.HomeRepo>()),
+    );
+    gh.factory<_i1031.SubjectByIdUseCase>(
+      () => _i1031.SubjectByIdUseCase(gh<_i494.HomeRepo>()),
     );
     gh.factory<_i1039.SubjectViewModel>(
       () => _i1039.SubjectViewModel(gh<_i494.HomeRepo>()),
