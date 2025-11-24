@@ -1,27 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'SubjectsResponse.dart';
+part of 'ExamsRseponse.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SubjectsResponse _$SubjectsResponseFromJson(Map<String, dynamic> json) =>
-    SubjectsResponse(
+ExamsRseponse _$ExamsRseponseFromJson(Map<String, dynamic> json) =>
+    ExamsRseponse(
       message: json['message'] as String?,
-      pagination: json['Pagination'] == null
+      metadata: json['metadata'] == null
           ? null
-          : Pagination.fromJson(json['Pagination'] as Map<String, dynamic>),
-      subjects: (json['subjects'] as List<dynamic>?)
-          ?.map((e) => SubjectModel.fromJson(e as Map<String, dynamic>))
+          : Pagination.fromJson(json['metadata'] as Map<String, dynamic>),
+      exams: (json['exams'] as List<dynamic>?)
+          ?.map((e) => ExamModelDto.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$SubjectsResponseToJson(SubjectsResponse instance) =>
+Map<String, dynamic> _$ExamsRseponseToJson(ExamsRseponse instance) =>
     <String, dynamic>{
       'message': instance.message,
-      'Pagination': instance.pagination,
-      'subjects': instance.subjects,
+      'metadata': instance.metadata,
+      'exams': instance.exams,
     };
 
 Pagination _$PaginationFromJson(Map<String, dynamic> json) => Pagination(

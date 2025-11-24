@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Subject/data/dataSource/HomeOnlineDataSource.dart';
+import 'package:online_exam/Features/Subject/domain/model/ExamModel.dart';
 import 'package:online_exam/Features/Subject/domain/repositories/HomeRepo.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
 
@@ -16,6 +17,11 @@ class HomeRepoImpl implements HomeRepo {
   @override
   Future<Result<List<SubjectModel>>> getAllSubjects() {
     return homeOnlineDataSource.getAllSubjects();
+  }
+
+  @override
+  Future<Result<List<ExamModel>>> getAllExamsOnSubject(String subjectId) {
+   return homeOnlineDataSource.getAllExamsOnSubjects(subjectId);
   }
 
 }

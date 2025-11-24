@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Subject/api/api_utils.dart';
 import 'package:online_exam/Features/Subject/api/api_client.dart';
 import 'package:online_exam/Features/Subject/data/dataSource/HomeOnlineDataSource.dart';
+import 'package:online_exam/Features/Subject/domain/model/ExamModel.dart';
 import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
 
@@ -18,6 +19,15 @@ class HomeOnlineDataSourceImpl implements HomeOnlineDataSource {
     return executeApi<List<SubjectModel>>(() async {
       final response = await apiClient.getAllSubjects();
       return response.subjects?.map((dto) => dto.toSubjectModels(),).toList()?? [];
+
+    });
+  }
+
+  @override
+  Future<Result<List<ExamModel>>> getAllExamsOnSubjects(String subjectId) {
+    return executeApi<List<ExamModel>>(() async {
+      final response = await apiClient.getAllExamsOnSubjects(subjectId);
+      return response.exams?.map((dto) => dto.toExamModels(),).toList()?? [];
 
     });
   }

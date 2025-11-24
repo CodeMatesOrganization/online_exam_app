@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:online_exam/Features/Subject/api/model/response/ExamsRseponse.dart';
 import 'package:online_exam/Features/Subject/api/model/response/SubjectsResponse.dart';
 
 
@@ -14,4 +15,9 @@ abstract class HomeApiClient {
   @GET('subjects')
   Future<SubjectsResponse> getAllSubjects ();
 
- }
+  @GET('exams')
+  Future<ExamsRseponse> getAllExamsOnSubjects (
+      @Query("subject") String subjectId
+      );
+
+}
