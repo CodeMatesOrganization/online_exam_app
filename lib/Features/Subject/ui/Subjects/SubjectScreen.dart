@@ -6,9 +6,7 @@ import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/widgets/SubjectCard.dart';
-import 'package:online_exam/core/SharedPref.dart';
 import 'package:online_exam/di.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({super.key});
