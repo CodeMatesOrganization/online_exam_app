@@ -40,7 +40,7 @@ class ExamsViewModel extends Cubit<ExamsState> {
     }else if (subjectResult is Failure<SubjectModel>) {
     }
 
-    var examResult = await homeRepo.getAllExamsOnSubject(savedId!);
+    var examResult = await homeRepo.getAllExamsOnSubject(savedId);
 
     if (examResult is Success<List<ExamModel>>) {
       final exams = examResult.data;
