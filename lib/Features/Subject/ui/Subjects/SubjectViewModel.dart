@@ -4,6 +4,8 @@ import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
 import 'package:online_exam/Features/Subject/domain/repositories/HomeRepo.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
+import 'package:online_exam/core/SharedPref.dart';
+import 'package:online_exam/di.dart';
 
 @injectable
 class SubjectViewModel extends Cubit<SubjectState> {
@@ -16,6 +18,9 @@ class SubjectViewModel extends Cubit<SubjectState> {
   void doIntent(SubjectIntent intent) async {
     if (intent is NavigateToSubjectIntent) {
       emit(NavigateToSubjectState());
+      await getIt<SharedPreferencesHelper>().saveSubjectId(intent.subjectId);
+    
+
     }
   }
 

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/Features/Auth/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/Features/Auth/ui/widget/custome_text.dart';
+import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/widgets/SubjectCard.dart';
+import 'package:online_exam/core/SharedPref.dart';
 import 'package:online_exam/di.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({super.key});
@@ -79,15 +82,24 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       ),
                     ),
                   );
+                }else if (state is NavigateToSubjectState){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => ExamsScreen()),
+                  );
                 }
-
               },
                 builder: (context, state) {
                   if (state is SubjectSuccessState) {
-                    final subjects = state.subjects; // حسب الـ SubjectsResponse
+                    final subjects = state.subjects;
                     return Column(
                       children: subjects.map((subj) =>
-                          SubjectCard(name: subj.name ?? "", icon: subj.icon ?? " ") // ممكن تختار أي أيقونة ديناميكي
+                          InkWell(
+                            onTap: () {
+                              viewModel.doIntent(NavigateToSubjectIntent(subj.Id));
+                            },
+                            child: SubjectCard(name: subj.name ?? "", icon: subj.icon ?? " ") ,
+                          )
                       ).toList(),
                     );
                   } else if (state is SubjectLoadingState) {

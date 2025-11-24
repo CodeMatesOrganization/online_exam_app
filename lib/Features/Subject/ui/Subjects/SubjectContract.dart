@@ -17,4 +17,7 @@ class NavigateToSubjectState extends SubjectState {}
 // Intents
 abstract class SubjectIntent {}
 
-class NavigateToSubjectIntent extends SubjectIntent {}
+class NavigateToSubjectIntent extends SubjectIntent {
+  String? subjectId;
+  NavigateToSubjectIntent(this.subjectId);
+}
