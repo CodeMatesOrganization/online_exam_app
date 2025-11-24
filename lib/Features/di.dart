@@ -1,11 +1,9 @@
 
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
 import 'package:online_exam/Features/Auth/api/api_client.dart';
 import 'package:online_exam/Features/Subject/api/api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 @module
 abstract class ApiModule{
