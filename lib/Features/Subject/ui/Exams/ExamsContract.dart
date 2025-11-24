@@ -6,8 +6,9 @@ class ExamsInitialState extends ExamsState {}
 class ExamsLoadingState extends ExamsState {}
 class ExamsSuccessState extends ExamsState {
   final List<ExamModel> exams;
+  final String? subjectName;
 
-  ExamsSuccessState(this.exams);
+  ExamsSuccessState(this.exams , this.subjectName);
 }
 class ExamsErrorState extends ExamsState {
   final Exception exception;

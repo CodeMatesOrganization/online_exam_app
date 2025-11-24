@@ -24,6 +24,15 @@ class HomeOnlineDataSourceImpl implements HomeOnlineDataSource {
   }
 
   @override
+  Future<Result<SubjectModel>> getSubjectById(String subjectId) {
+    return executeApi<SubjectModel>(() async {
+      final response = await apiClient.getSubjectById(subjectId);
+      return response.category!.toSubjectModel();
+    });
+  }
+
+
+  @override
   Future<Result<List<ExamModel>>> getAllExamsOnSubjects(String subjectId) {
     return executeApi<List<ExamModel>>(() async {
       final response = await apiClient.getAllExamsOnSubjects(subjectId);
