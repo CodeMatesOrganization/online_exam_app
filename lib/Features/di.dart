@@ -2,6 +2,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
 import 'package:online_exam/Features/Auth/api/api_client.dart';
+import 'package:online_exam/Features/Profile/api/api_client.dart';
 import 'package:online_exam/Features/Subject/api/api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -18,6 +19,11 @@ abstract class ApiModule{
   HomeApiClient provideHomeApiClient(Dio dio) {
      return HomeApiClient(dio , baseUrl: 'https://exam.elevateegy.com/api/v1/');
 }
+  @singleton
+  ProfileApiClient provideProfileApiClient(Dio dio) {
+    return ProfileApiClient(dio , baseUrl: 'https://exam.elevateegy.com/api/v1/');
+  }
+
     @singleton
     Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger ) {
       var dio =  Dio(

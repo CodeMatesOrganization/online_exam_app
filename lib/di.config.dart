@@ -34,6 +34,14 @@ import 'Features/Auth/ui/auth/signUp/SignUpViewModel.dart' as _i958;
 import 'Features/Auth/ui/auth/verifyCode/VerifyCode.dart' as _i200;
 import 'Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart' as _i631;
 import 'Features/di.dart' as _i72;
+import 'Features/Profile/api/api_client.dart' as _i644;
+import 'Features/Profile/api/dataSource/ProfileOnlineDataSourceImpl.dart'
+    as _i878;
+import 'Features/Profile/data/dataSource/ProfileDataSource.dart' as _i656;
+import 'Features/Profile/data/repos/ProfileRepoImpl.dart' as _i449;
+import 'Features/Profile/domain/repositories/ProfileRepo.dart' as _i563;
+import 'Features/Profile/domain/useCase/getProfile.dart' as _i33;
+import 'Features/Profile/ui/ProfilePage/ProfileViewModel.dart' as _i346;
 import 'Features/Subject/api/api_client.dart' as _i464;
 import 'Features/Subject/api/dataSource/HomeOnlineDataSourceImpl.dart' as _i452;
 import 'Features/Subject/data/dataSource/HomeOnlineDataSource.dart' as _i530;
@@ -71,14 +79,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i464.HomeApiClient>(
       () => apiModule.provideHomeApiClient(gh<_i361.Dio>()),
     );
+    gh.singleton<_i644.ProfileApiClient>(
+      () => apiModule.provideProfileApiClient(gh<_i361.Dio>()),
+    );
+    gh.factory<_i656.ProfileDataSource>(
+      () => _i878.ProfileOnlineDataSourceImpl(gh<_i644.ProfileApiClient>()),
+    );
     gh.factory<_i530.HomeOnlineDataSource>(
       () => _i452.HomeOnlineDataSourceImpl(gh<_i464.HomeApiClient>()),
+    );
+    gh.factory<_i563.ProfileRepo>(
+      () => _i449.ProfileRepoImpl(gh<_i656.ProfileDataSource>()),
     );
     gh.factory<_i648.AuthOnlineDataSource>(
       () => _i749.AuthOnlineDataSourceImpl(gh<_i202.ApiClient>()),
     );
     gh.factory<_i894.AuthRepo>(
       () => _i248.AuthRepoImpl(gh<_i648.AuthOnlineDataSource>()),
+    );
+    gh.factory<_i33.GetProfile>(() => _i33.GetProfile(gh<_i563.ProfileRepo>()));
+    gh.factory<_i346.ProfileViewModel>(
+      () => _i346.ProfileViewModel(gh<_i563.ProfileRepo>()),
     );
     gh.factory<_i746.EmailVerificationUseCase>(
       () => _i746.EmailVerificationUseCase(gh<_i894.AuthRepo>()),
