@@ -18,6 +18,7 @@ import 'package:get_it/get_it.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   runApp(MyApp());
 }
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           theme: AppTheme.generalTheme,
-          initialRoute: '/home',
+          initialRoute: '/login',
           routes: {
             '/forget_password': (context) => ForgetPasswordScreen(),
             '/sign_up': (context) => BlocProvider(

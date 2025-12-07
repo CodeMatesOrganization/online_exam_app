@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Auth/api/model/request/sign_up_request.dart';
-import 'package:online_exam/Features/Auth/domain/model/UserModel.dart';
+import 'package:online_exam/Features/Auth/domain/model/AuthResponseModel.dart';
 import 'package:online_exam/Features/Auth/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/Features/Auth/domain/result.dart';
 import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpContract.dart';
@@ -40,10 +40,10 @@ class SignUpViewModel extends Cubit<SignUpState> {
 
     var result = await authRepo.signUp(signUpRequest);
 
-    if (result is Success<UserModel>) {
-      emit(SignUpSuccessState(result.data)); // Success مباشرة
-    } else if (result is Failure<UserModel>) {
-      emit(SignUpErrorState(result.exception)); // Error مباشرة
+    if (result is Success<AuthResponseModel>) {
+      emit(SignUpSuccessState(result.data.user!));
+    } else if (result is Failure<AuthResponseModel>) {
+      emit(SignUpErrorState(result.exception));
     }
   }
 }

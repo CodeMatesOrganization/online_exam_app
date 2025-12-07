@@ -40,6 +40,7 @@ import 'Features/Profile/api/dataSource/ProfileOnlineDataSourceImpl.dart'
 import 'Features/Profile/data/dataSource/ProfileDataSource.dart' as _i656;
 import 'Features/Profile/data/repos/ProfileRepoImpl.dart' as _i449;
 import 'Features/Profile/domain/repositories/ProfileRepo.dart' as _i563;
+import 'Features/Profile/domain/useCase/editProfile.dart' as _i801;
 import 'Features/Profile/domain/useCase/getProfile.dart' as _i33;
 import 'Features/Profile/ui/ProfilePage/ProfileViewModel.dart' as _i346;
 import 'Features/Subject/api/api_client.dart' as _i464;
@@ -71,6 +72,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => apiModule.provideDio(
         gh<_i361.BaseOptions>(),
         gh<_i528.PrettyDioLogger>(),
+        gh<_i411.SharedPreferencesHelper>(),
       ),
     );
     gh.singleton<_i202.ApiClient>(
@@ -96,6 +98,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i894.AuthRepo>(
       () => _i248.AuthRepoImpl(gh<_i648.AuthOnlineDataSource>()),
+    );
+    gh.factory<_i801.EditProfile>(
+      () => _i801.EditProfile(gh<_i563.ProfileRepo>()),
     );
     gh.factory<_i33.GetProfile>(() => _i33.GetProfile(gh<_i563.ProfileRepo>()));
     gh.factory<_i346.ProfileViewModel>(
