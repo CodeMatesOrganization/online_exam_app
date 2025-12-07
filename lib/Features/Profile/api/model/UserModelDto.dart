@@ -51,9 +51,8 @@ class UserModelDto {
         email: email,
         isVerified: isVerified,
         role: role,
-        username: username,
-        Id: Id,
-        createdAt: createdAt
+        userName: username,
+        id: Id,
     );
   }
 }
