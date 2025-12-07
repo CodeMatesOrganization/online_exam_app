@@ -8,6 +8,9 @@ import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpScreen.dart';
 import 'package:online_exam/Features/Auth/ui/auth/signUp/SignUpViewModel.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyCode.dart';
 import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart';
+import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
+import 'package:online_exam/Features/Subject/ui/HomeScreen.dart';
+import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
 import 'package:online_exam/Features/Questions/api/model/response/questions_response.dart';
 import 'package:online_exam/Features/Questions/ui/questions/QuestionsScreen.dart';
 import 'package:online_exam/Features/Questions/ui/questions/QuestionsViewModel.dart' show QuestionsViewModel;
@@ -34,6 +37,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           theme: AppTheme.generalTheme,
+          initialRoute: '/home_subject',
           initialRoute: '/questions',
           routes: {
             '/forget_password': (context) => ForgetPasswordScreen(),
@@ -47,6 +51,10 @@ class MyApp extends StatelessWidget {
                   child: VerifyCode(),
                 ),
             '/reset_password': (context) => ResetPasswordScreen(),
+            '/home_subject': (context) => SubjectScreen(),
+            '/home': (context) => HomeScreen(),
+            '/exam': (context) => ExamsScreen(),
+
              '/questions': (context) =>
         //BlocProvider(
             //     create: (_) => GetIt.instance<QuestionsViewModel>(),

@@ -10,7 +10,7 @@ import 'package:online_exam/Features/Auth/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/Features/Auth/ui/widget/custome_text.dart';
 
 class SignUpScreen extends StatefulWidget {
-  static const String routename = "SignUp";
+  static const String routeName = "/sign_up";
 
   @override
   State<SignUpScreen> createState() => _SignupState();

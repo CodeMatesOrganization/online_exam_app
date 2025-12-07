@@ -13,8 +13,8 @@ ServerErrorResponse _$ServerErrorResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ServerErrorResponseToJson(
-        ServerErrorResponse instance) =>
-    <String, dynamic>{
-      'statusMessage': instance.statusMessage,
-      'message': instance.message,
-    };
+  ServerErrorResponse instance,
+) => <String, dynamic>{
+  'statusMessage': instance.statusMessage,
+  'message': instance.message,
+};
