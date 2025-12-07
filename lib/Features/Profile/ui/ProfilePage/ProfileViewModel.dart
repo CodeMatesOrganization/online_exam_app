@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:online_exam/Features/Profile/api/model/request/editRequest.dart';
+import 'package:online_exam/Features/Profile/domain/model/EditProfileModel.dart';
 import 'package:online_exam/Features/Profile/domain/model/UserModel.dart';
 import 'package:online_exam/Features/Profile/domain/repositories/ProfileRepo.dart';
 import 'package:online_exam/Features/Profile/ui/ProfilePage/ProfileContract.dart';
@@ -16,7 +18,10 @@ class ProfileViewModel extends Cubit<ProfileState> {
 
   void doIntent(ProfileIntent intent) async {
     if (intent is UpdateProfileIntent) {
-      emit(UpdateProfile());
+      updateUserProfile(intent);
+    }
+    if (intent is LogOutIntent) {
+      logOut(intent);
     }
   }
 
@@ -33,5 +38,38 @@ class ProfileViewModel extends Cubit<ProfileState> {
       emit(ProfileErrorState(exception));
     }
   }
+
+  Future<void> updateUserProfile(UpdateProfileIntent intent) async {
+    emit(UpdateProfileLoadingState());
+    final userProfile = EditRequest(
+      firstName: intent.firstName,
+      lastName: intent.lastName,
+      username: intent.userName,
+      email: intent.email,
+      phone: intent.phone,
+    );
+
+    final result = await profileRepo.editUserProfile(userProfile);
+
+    if (result is Success<EditProfileModel>) {
+      final updatedUser = result.data.user; // assuming EditProfileModel يحتوي على user
+      emit(UpdateProfileSuccessState(updatedUser!));
+      emit(ProfileSuccessState(updatedUser));
+    } else if (result is Failure<EditProfileModel>) {
+      emit(UpdateProfileErrorState(result.exception));
+    }
+  }
+
+  Future<void> logOut(LogOutIntent intent) async {
+
+    final result = await profileRepo.logOut();
+
+    if (result is Success<void>) {
+      emit(LogOutState());
+    } else if (result is Failure<void>) {
+      emit(ProfileErrorState(result.exception));
+    }
+  }
+
 }
 
