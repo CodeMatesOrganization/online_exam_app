@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:online_exam/Features/Auth/api/api_client.dart';
-import 'package:online_exam/Features/Auth/api/api_utils.dart';
+import 'package:online_exam/core/api/api_client.dart';
+import 'package:online_exam/core/api/api_utils.dart';
 import 'package:online_exam/Features/Auth/api/model/request/login_request.dart';
 import 'package:online_exam/Features/Auth/api/model/request/sign_up_request.dart';
 import 'package:online_exam/Features/Auth/data/dataSource/AuthOnlineDataSource.dart';

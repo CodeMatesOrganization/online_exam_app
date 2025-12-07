@@ -1,5 +1,4 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -15,9 +14,10 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart' as _i528;
 
-import 'Features/Auth/api/api_client.dart' as _i202;
+import 'core/api/api_client.dart' as _i954;
+import 'core/api/di.dart' as _i790;
+import 'core/local/Prefrence.dart' as _i460;
 import 'Features/Auth/api/dataSource/AuthOnlineDataSourceImpl.dart' as _i749;
-import 'Features/Auth/api/di.dart' as _i254;
 import 'Features/Auth/data/dataSource/AuthOnlineDataSource.dart' as _i648;
 import 'Features/Auth/data/repos/AuthRepoImpl.dart' as _i248;
 import 'Features/Auth/domain/repositories/AuthRepo.dart' as _i894;
@@ -34,6 +34,22 @@ import 'Features/Auth/ui/auth/resetPassword/ResetPasswordViewModel.dart'
 import 'Features/Auth/ui/auth/signUp/SignUpViewModel.dart' as _i958;
 import 'Features/Auth/ui/auth/verifyCode/VerifyCode.dart' as _i200;
 import 'Features/Auth/ui/auth/verifyCode/VerifyViewModel.dart' as _i631;
+import 'Features/Questions/api/dataSource/CheckQuestionsDataSourceImpl.dart'
+    as _i552;
+import 'Features/Questions/api/dataSource/QuestionsOnlineDataSourceImpl.dart'
+    as _i309;
+import 'Features/Questions/date/dataSource/CheckQuestionsDataSource.dart'
+    as _i994;
+import 'Features/Questions/date/dataSource/QuestionsOnlineDataSource.dart'
+    as _i703;
+import 'Features/Questions/date/repos/CheckQuestionsRepoImpl.dart' as _i171;
+import 'Features/Questions/date/repos/QuestionsRepoImpl.dart' as _i823;
+import 'Features/Questions/domain/repositories/CheckQuestionsRepo.dart'
+    as _i275;
+import 'Features/Questions/domain/repositories/QuestionsRepo.dart' as _i101;
+import 'Features/Questions/domain/useCase/CheckQuestionsUseCase.dart' as _i659;
+import 'Features/Questions/domain/useCase/QuestionsUseCase.dart' as _i393;
+import 'Features/Questions/ui/questions/QuestionsViewModel.dart' as _i168;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -47,6 +63,7 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final apiModule = _$ApiModule();
+    gh.factory<_i460.PrefsHelper>(() => _i460.PrefsHelper());
     gh.singleton<_i528.PrettyDioLogger>(() => apiModule.provideDioLogger());
     gh.singleton<_i361.BaseOptions>(() => apiModule.provideOptions());
     gh.singleton<_i361.Dio>(() => apiModule.provideDio(
@@ -54,10 +71,14 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i528.PrettyDioLogger>(),
         ));
     gh.factory<_i200.VerifyCode>(() => _i200.VerifyCode(key: gh<_i409.Key>()));
-    gh.singleton<_i202.ApiClient>(
+    gh.singleton<_i954.ApiClient>(
         () => apiModule.provideApiClient(gh<_i361.Dio>()));
     gh.factory<_i648.AuthOnlineDataSource>(
-        () => _i749.AuthOnlineDataSourceImpl(gh<_i202.ApiClient>()));
+        () => _i749.AuthOnlineDataSourceImpl(gh<_i954.ApiClient>()));
+    gh.factory<_i994.CheckQuestionsDataSource>(
+        () => _i552.CheckQuestionsDataSourceImpl(gh<_i954.ApiClient>()));
+    gh.factory<_i703.QuestionsOnlineDataSource>(
+        () => _i309.QuestionsOnlineDataSourceImpl(gh<_i954.ApiClient>()));
     gh.factory<_i894.AuthRepo>(
         () => _i248.AuthRepoImpl(gh<_i648.AuthOnlineDataSource>()));
     gh.factory<_i746.EmailVerificationUseCase>(
@@ -80,8 +101,20 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i958.SignUpViewModel(gh<_i894.AuthRepo>()));
     gh.factory<_i631.VerifyViewModel>(
         () => _i631.VerifyViewModel(gh<_i894.AuthRepo>()));
+    gh.factory<_i101.QuestionRepo>(
+        () => _i823.QuestionsRepoImpl(gh<_i703.QuestionsOnlineDataSource>()));
+    gh.factory<_i275.CheckQuestionsRepo>(() =>
+        _i171.CheckQuestionsRepoImpl(gh<_i994.CheckQuestionsDataSource>()));
+    gh.factory<_i659.CheckQuestionsUseCase>(
+        () => _i659.CheckQuestionsUseCase(gh<_i275.CheckQuestionsRepo>()));
+    gh.factory<_i393.QuestionsUseCase>(
+        () => _i393.QuestionsUseCase(gh<_i101.QuestionRepo>()));
+    gh.factory<_i168.QuestionsViewModel>(() => _i168.QuestionsViewModel(
+          gh<_i101.QuestionRepo>(),
+          gh<_i659.CheckQuestionsUseCase>(),
+        ));
     return this;
   }
 }
 
-class _$ApiModule extends _i254.ApiModule {}
+class _$ApiModule extends _i790.ApiModule {}
