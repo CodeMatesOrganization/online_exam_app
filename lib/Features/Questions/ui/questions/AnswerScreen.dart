@@ -98,10 +98,9 @@ class _WrongQuestionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(original.question ?? "",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+              style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 12),
 
-          // نعرض كل الإجابات ونحدد حالتها
           ...original.answers!.map((ans) {
             bool isCorrectAnswer = ans.key == q.correctAnswer;
             bool isUserWrong = ans.key == q.inCorrectAnswer;
@@ -132,7 +131,7 @@ class _QuestionContainer extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 6, offset: Offset(0, 3)),
+          BoxShadow(color: AppColors.gray, blurRadius: 6, offset: Offset(0, 3)),
         ],
       ),
       child: child,
@@ -183,7 +182,7 @@ class _OptionTile extends StatelessWidget {
           Icon(icon, color: iconColor),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 16)),
+            child: Text(text, style: Theme.of(context).textTheme.labelLarge),
           ),
         ],
       ),

@@ -16,6 +16,7 @@ abstract class ApiModule{
     var dio =  Dio(
       options..headers = {
         "Content-Type": "application/json",
+        "token" :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWY0MDA3Y2MzZGViYTYwZDAzMWEyMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYzOTMzODczfQ.WntSYALngGEOYkI_9dXdo2XOloe-1qOFT8fj3Hn7xxM"
       },
     );
     dio.interceptors.add(dioLogger);

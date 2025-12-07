@@ -1,15 +1,15 @@
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Subject/api/api_utils.dart';
-import 'package:online_exam/Features/Subject/api/api_client.dart';
 import 'package:online_exam/Features/Subject/data/dataSource/HomeOnlineDataSource.dart';
 import 'package:online_exam/Features/Subject/domain/model/ExamModel.dart';
 import 'package:online_exam/Features/Subject/domain/model/SubjectModel.dart';
 import 'package:online_exam/Features/Subject/domain/result.dart';
+import 'package:online_exam/core/api/api_client.dart';
 
 
 @Injectable(as: HomeOnlineDataSource)
 class HomeOnlineDataSourceImpl implements HomeOnlineDataSource {
-  HomeApiClient apiClient;
+  ApiClient apiClient;
 
   HomeOnlineDataSourceImpl(this.apiClient);
 

@@ -41,6 +41,7 @@ class ExamsViewModel extends Cubit<ExamsState> {
     }
 
     var examResult = await homeRepo.getAllExamsOnSubject(savedId);
+    // var examResult = await homeRepo.getAllExamsOnSubject("670070a830a3c3c1944a9c63");
 
     if (examResult is Success<List<ExamModel>>) {
       final exams = examResult.data;

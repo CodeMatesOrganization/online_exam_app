@@ -11,9 +11,7 @@ import 'package:online_exam/Features/Auth/ui/auth/verifyCode/VerifyViewModel.dar
 import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/HomeScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
-import 'package:online_exam/Features/Questions/api/model/response/questions_response.dart';
 import 'package:online_exam/Features/Questions/ui/questions/QuestionsScreen.dart';
-import 'package:online_exam/Features/Questions/ui/questions/QuestionsViewModel.dart' show QuestionsViewModel;
 import 'package:online_exam/core/local/Prefrence.dart';
 import 'package:online_exam/core/theme/app_theme.dart';
 import 'di.dart';
@@ -37,8 +35,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           theme: AppTheme.generalTheme,
-          initialRoute: '/home_subject',
-          initialRoute: '/questions',
+          initialRoute: '/home',
           routes: {
             '/forget_password': (context) => ForgetPasswordScreen(),
             '/sign_up': (context) => BlocProvider(
@@ -54,12 +51,8 @@ class MyApp extends StatelessWidget {
             '/home_subject': (context) => SubjectScreen(),
             '/home': (context) => HomeScreen(),
             '/exam': (context) => ExamsScreen(),
-
-             '/questions': (context) =>
-        //BlocProvider(
-            //     create: (_) => GetIt.instance<QuestionsViewModel>(),
-            //     child:
-                 QuestionsScreenEnhanced(examId: "670070a830a3c3c1944a9c63"),
+            '/questions': (context) =>
+                QuestionsScreen(examId: "670070a830a3c3c1944a9c63"),
           },
         );
       },

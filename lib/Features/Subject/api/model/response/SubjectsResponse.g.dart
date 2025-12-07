@@ -25,10 +25,10 @@ Map<String, dynamic> _$SubjectsResponseToJson(SubjectsResponse instance) =>
     };
 
 Pagination _$PaginationFromJson(Map<String, dynamic> json) => Pagination(
-  currentPage: (json['currentPage'] as num?)?.toInt(),
-  numberOfPages: (json['numberOfPages'] as num?)?.toInt(),
-  limit: (json['limit'] as num?)?.toInt(),
-);
+      currentPage: (json['currentPage'] as num?)?.toInt(),
+      numberOfPages: (json['numberOfPages'] as num?)?.toInt(),
+      limit: (json['limit'] as num?)?.toInt(),
+    );
 
 Map<String, dynamic> _$PaginationToJson(Pagination instance) =>
     <String, dynamic>{

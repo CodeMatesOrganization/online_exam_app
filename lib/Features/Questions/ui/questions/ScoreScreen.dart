@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:online_exam/Features/Questions/ui/questions/AnswerScreen.dart';
 import 'package:online_exam/Features/Questions/ui/questions/QuestionsScreen.dart';
 import 'package:online_exam/Features/Questions/ui/utls/ScoreCircularIndicator.dart';
+import 'package:online_exam/Features/Result/ui/ResultScreen.dart';
 import 'package:online_exam/core/theme/app_colors.dart' show AppColors;
 import '../../api/model/response/check_questions_response.dart';
 
@@ -58,9 +59,9 @@ class ScoreScreenEnhanced extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 12),
-            const Text(
+            Text(
               "Your score",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              style: Theme.of(context).textTheme.titleLarge
             ),
             const SizedBox(height: 22),
 
@@ -163,6 +164,11 @@ class ScoreScreenEnhanced extends StatelessWidget {
                       ),
                     ),
                   );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (_) => const ResultsScreen()),
+                  // );
+
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:  AppColors.blue,
@@ -188,7 +194,7 @@ class ScoreScreenEnhanced extends StatelessWidget {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => QuestionsScreenEnhanced(
+                        builder: (_) => QuestionsScreen(
                             examId:
                                 examId)),
                     (route) => false,

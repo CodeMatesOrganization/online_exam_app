@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_exam/Features/Auth/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/Features/Auth/ui/widget/custome_text.dart';
+import 'package:online_exam/Features/Questions/ui/questions/QuestionsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Exams/ExamsScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectContract.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/widgets/SubjectCard.dart';
+import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 
 class SubjectScreen extends StatefulWidget {
@@ -64,7 +66,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder: (_) => Center(child: CircularProgressIndicator()),
+                    builder: (_) => Center(child: CircularProgressIndicator(color: AppColors.blue)),
                   );
                 }
                 // 2. Error
@@ -83,7 +85,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 }else if (state is NavigateToSubjectState){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => ExamsScreen()),
+                    MaterialPageRoute(builder: (_) => QuestionsScreen(examId: "670070a830a3c3c1944a9c63")),
                   );
                 }
               },

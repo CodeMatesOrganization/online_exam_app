@@ -15,8 +15,8 @@ SubjectByIdResponse _$SubjectByIdResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$SubjectByIdResponseToJson(
-  SubjectByIdResponse instance,
-) => <String, dynamic>{
-  'message': instance.message,
-  'category': instance.category,
-};
+        SubjectByIdResponse instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'category': instance.category,
+    };

@@ -10,6 +10,8 @@ import 'package:online_exam/Features/Questions/api/model/response/questions_resp
 
 import 'package:online_exam/Features/Questions/domain/repositories/QuestionsRepo.dart';
 import 'package:online_exam/Features/Questions/domain/useCase/CheckQuestionsUseCase.dart';
+import 'package:online_exam/Features/Result/ResultPref.dart';
+import 'package:online_exam/Features/Result/model/ExamResultModel.dart';
 
 import 'QuestionsContract.dart';
 
@@ -142,6 +144,18 @@ class QuestionsViewModel extends Cubit<QuestionsState> {
       final response = await checkUseCase(
         request: request,
         token: token,
+      );
+      await ResultStorageService.saveExamResult(
+        ExamResultModel(
+          title: exam!.questions!.first.exam!.title ?? "Exam",
+          correct: response.correct,
+          wrong: response.wrong,
+          totalQuestions: exam!.questions!.length,
+          date: DateTime.now(),
+          correctQuestions: response.correctQuestions ?? [],
+          wrongQuestions: response.wrongQuestions ?? [],
+          allQuestions: exam!.questions!.map((e) => e.toJson()).toList(),
+        ),
       );
 
       emit(

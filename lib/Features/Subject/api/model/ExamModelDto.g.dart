@@ -7,14 +7,14 @@ part of 'ExamModelDto.dart';
 // **************************************************************************
 
 ExamModelDto _$ExamModelDtoFromJson(Map<String, dynamic> json) => ExamModelDto(
-  Id: json['_id'] as String?,
-  title: json['title'] as String?,
-  duration: (json['duration'] as num?)?.toInt(),
-  subject: json['subject'] as String?,
-  numberOfQuestions: (json['numberOfQuestions'] as num?)?.toInt(),
-  active: json['active'] as bool?,
-  createdAt: json['createdAt'] as String?,
-);
+      Id: json['_id'] as String?,
+      title: json['title'] as String?,
+      duration: (json['duration'] as num?)?.toInt(),
+      subject: json['subject'] as String?,
+      numberOfQuestions: (json['numberOfQuestions'] as num?)?.toInt(),
+      active: json['active'] as bool?,
+      createdAt: json['createdAt'] as String?,
+    );
 
 Map<String, dynamic> _$ExamModelDtoToJson(ExamModelDto instance) =>
     <String, dynamic>{

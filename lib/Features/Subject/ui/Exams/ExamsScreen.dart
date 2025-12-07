@@ -5,6 +5,7 @@ import 'package:online_exam/Features/Subject/ui/Exams/ExamsContract.dart';
 import 'package:online_exam/Features/Subject/ui/Exams/ExamsViewModel.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
 import 'package:online_exam/Features/Subject/ui/widgets/ExamCard.dart';
+import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 
 class ExamsScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _ExamsScreenState extends State<ExamsScreen> {
                           context: context,
                           barrierDismissible: false,
                           builder: (_) =>
-                              Center(child: CircularProgressIndicator()),
+                              Center(child: CircularProgressIndicator(color : AppColors.blue)),
                         );
                       }
                       // 2. Error

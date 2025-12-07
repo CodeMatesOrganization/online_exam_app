@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_exam/Features/Subject/ui/HomeScreen.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 import 'package:online_exam/Features/Auth/ui/auth/forgetPassword/ForgetPasswordScreen.dart';
@@ -121,18 +122,10 @@ class _LoginState extends State<LoginScreen> {
                         );
                       } else if (state is LoginSuccessState) {
                         Navigator.of(context, rootNavigator: true).pop();
-                        await showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                            title: const Text("Success"),
-                            content: const Text("Login Successful!"),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text("OK"),
-                              ),
-                            ],
-                          ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => HomeScreen()),
                         );
                       } else if (state is NavigateToForgotPasswordEvent) {
                         Navigator.push(

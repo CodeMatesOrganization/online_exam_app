@@ -7,23 +7,23 @@ import 'package:online_exam/Features/Questions/ui/utls/TimeOutDialog.dart';
 import 'package:online_exam/core/theme/app_colors.dart';
 import 'package:online_exam/di.dart';
 
-class QuestionsScreenEnhanced extends StatelessWidget {
+class QuestionsScreen extends StatelessWidget {
   final String examId;
-  const QuestionsScreenEnhanced({super.key, required this.examId});
+  const QuestionsScreen({super.key, required this.examId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) =>
           getIt<QuestionsViewModel>()..doIntent(LoadExamQuestions(examId)),
-      child: _QuestionsViewEnhanced(examId: examId),
+      child: _QuestionsView(examId: examId),
     );
   }
 }
 
-class _QuestionsViewEnhanced extends StatelessWidget {
+class _QuestionsView extends StatelessWidget {
   final String examId;
-  const _QuestionsViewEnhanced({super.key, required this.examId});
+  const _QuestionsView({super.key, required this.examId});
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +91,10 @@ class _QuestionsViewEnhanced extends StatelessWidget {
                     children: [
                       const Icon(Icons.arrow_back, size: 22),
                       const SizedBox(width: 6),
-                      const Text(
+                      Text(
                         "Exam",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
+                        style: Theme.of(context).textTheme.titleLarge
                         ),
-                      ),
                       const Spacer(),
 
                       // Timer UI
@@ -145,10 +142,7 @@ class _QuestionsViewEnhanced extends StatelessWidget {
                   // ---------------- QUESTION TEXT ----------------
                   Text(
                     question.question ?? "",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge
                   ),
 
                   const SizedBox(height: 20),

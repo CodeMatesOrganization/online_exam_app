@@ -29,6 +29,7 @@ class ScoreCircularIndicator extends StatelessWidget {
               child: Text(
                 "${(correctPercent * 100).round()}%",
                 style: const TextStyle(
+                  color: AppColors.black,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),

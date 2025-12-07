@@ -7,11 +7,11 @@ part of 'SubjectModel.dart';
 // **************************************************************************
 
 SubjectModel _$SubjectModelFromJson(Map<String, dynamic> json) => SubjectModel(
-  Id: json['_id'] as String?,
-  name: json['name'] as String?,
-  icon: json['icon'] as String?,
-  createdAt: json['createdAt'] as String?,
-);
+      Id: json['_id'] as String?,
+      name: json['name'] as String?,
+      icon: json['icon'] as String?,
+      createdAt: json['createdAt'] as String?,
+    );
 
 Map<String, dynamic> _$SubjectModelToJson(SubjectModel instance) =>
     <String, dynamic>{
