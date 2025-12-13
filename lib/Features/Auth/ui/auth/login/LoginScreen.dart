@@ -121,10 +121,7 @@ class _LoginState extends State<LoginScreen> {
                         );
                       } else if (state is LoginSuccessState) {
                         Navigator.of(context, rootNavigator: true).pop();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (_) => HomeScreen()),
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (_) => HomeScreen()),

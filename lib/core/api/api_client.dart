@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:online_exam/Features/Auth/api/model/request/login_request.dart';
 import 'package:online_exam/Features/Auth/api/model/request/sign_up_request.dart';
 import 'package:online_exam/Features/Auth/api/model/response/auth_response.dart';
+import 'package:online_exam/Features/Profile/api/model/EditUserDto.dart';
+import 'package:online_exam/Features/Profile/api/model/request/editRequest.dart';
+import 'package:online_exam/Features/Profile/api/model/response/UserDataResponse.dart';
 import 'package:online_exam/Features/Questions/api/model/request/submit_exam_request.dart';
 import 'package:online_exam/Features/Questions/api/model/response/check_questions_response.dart';
 import 'package:online_exam/Features/Questions/api/model/response/questions_response.dart';
@@ -65,4 +68,13 @@ abstract class ApiClient {
   Future<ExamsRseponse> getExamId (
       @Path('examId') String examId,
       );
+
+  @GET('auth/profileData')
+  Future<UserDataResponse> getUserData ();
+  @PUT('auth/editProfile')
+  Future<EditUserDto> editUserData (@Body() EditRequest user);
+  @GET('auth/logout')
+  Future<void> logOut ();
+
+
 }

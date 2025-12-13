@@ -7,12 +7,12 @@ part of 'editRequest.dart';
 // **************************************************************************
 
 EditRequest _$EditRequestFromJson(Map<String, dynamic> json) => EditRequest(
-  username: json['username'] as String?,
-  firstName: json['firstName'] as String?,
-  lastName: json['lastName'] as String?,
-  email: json['email'] as String?,
-  phone: json['phone'] as String?,
-);
+      username: json['username'] as String?,
+      firstName: json['firstName'] as String?,
+      lastName: json['lastName'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+    );
 
 Map<String, dynamic> _$EditRequestToJson(EditRequest instance) =>
     <String, dynamic>{

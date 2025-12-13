@@ -1,6 +1,7 @@
 
 import 'package:injectable/injectable.dart';
 import 'package:dio/dio.dart';
+import 'package:online_exam/core/SharedPref.dart';
 import 'package:online_exam/core/api/api_client.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -12,16 +13,24 @@ abstract class ApiModule{
   }
 
   @singleton
-  Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger ){
-    var dio =  Dio(
-      options..headers = {
-        "Content-Type": "application/json",
-        "token" :"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3NWY0MDA3Y2MzZGViYTYwZDAzMWEyMSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYzOTMzODczfQ.WntSYALngGEOYkI_9dXdo2XOloe-1qOFT8fj3Hn7xxM"
-      },
-    );
+  Dio provideDio(BaseOptions options, PrettyDioLogger dioLogger, SharedPreferencesHelper prefs) {
+    final dio = Dio(options);
     dio.interceptors.add(dioLogger);
+
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (options, handler) async {
+        final token = await prefs.getToken();
+        if (token != null) {
+          options.headers["token"] = token;
+        }
+        return handler.next(options);
+      },
+    ));
+
     return dio;
   }
+
+
 
 
   @singleton
