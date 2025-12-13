@@ -9,12 +9,18 @@ class SharedPreferencesHelper {
     if (token == null) return;
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("token", token);
+    print("TOOKEEEEEEEN IS " + token);
 
   }
 
   Future<String?> getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("token");
+  }
+
+  Future clearToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("token");
   }
 
   Future saveSubjectId(String? subjectId) async {

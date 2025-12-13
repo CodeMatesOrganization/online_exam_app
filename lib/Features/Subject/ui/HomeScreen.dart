@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:online_exam/Features/Profile/ui/ProfilePage/ProfileScreen.dart';
 import 'package:online_exam/Features/Subject/ui/Subjects/SubjectScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _pages.addAll([
       SubjectScreen(),
       Center(child: Text("Result Page", style: Theme.of(context).textTheme.headlineMedium)),
-      Center(child: Text("Profile Page", style: Theme.of(context).textTheme.headlineMedium)),
+      ProfileScreen()
     ]);
 
     return Scaffold(

@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Auth/api/model/request/login_request.dart';
-import 'package:online_exam/Features/Auth/domain/model/UserModel.dart';
+import 'package:online_exam/Features/Auth/domain/model/AuthResponseModel.dart';
 import 'package:online_exam/Features/Auth/domain/result.dart';
 import 'package:online_exam/Features/Auth/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/Features/Auth/ui/auth/login/LoginContract.dart';
 import 'package:online_exam/Features/Auth/ui/common/widget_state.dart';
+import 'package:online_exam/core/SharedPref.dart';
+import 'package:online_exam/di.dart';
 
 @injectable
 class LoginViewModel extends Cubit<LoginState> {
@@ -35,9 +37,11 @@ class LoginViewModel extends Cubit<LoginState> {
 
     var result = await authRepo.login(request);
 
-    if (result is Success<UserModel>) {
-      emit(LoginSuccessState(result.data));
-    } else if (result is Failure<UserModel>) {
+    if (result is Success<AuthResponseModel>) {
+      await getIt<SharedPreferencesHelper>()
+          .saveToken(result.data.token);
+      emit(LoginSuccessState(result.data.user!));
+    } else if (result is Failure<AuthResponseModel>) {
       emit(LoginErrorState(result.exception));
     }
   }

@@ -2,9 +2,10 @@ import 'package:injectable/injectable.dart';
 import 'package:online_exam/Features/Auth/api/model/request/login_request.dart';
 import 'package:online_exam/Features/Auth/api/model/request/sign_up_request.dart';
 import 'package:online_exam/Features/Auth/data/dataSource/AuthOnlineDataSource.dart';
-import 'package:online_exam/Features/Auth/domain/model/UserModel.dart';
 import 'package:online_exam/Features/Auth/domain/repositories/AuthRepo.dart';
 import 'package:online_exam/Features/Auth/domain/result.dart';
+import 'package:online_exam/Features/Auth/domain/model/AuthResponseModel.dart';
+
 
 
 @Injectable(as: AuthRepo)
@@ -15,13 +16,13 @@ class AuthRepoImpl implements AuthRepo {
     AuthRepoImpl(this.authOnlineDataSource);
 
   @override
-  Future<Result<UserModel>> login(LoginRequest request) {
+  Future<Result<AuthResponseModel>> login(LoginRequest request) {
     return authOnlineDataSource.login(
        request);
   }
 
   @override
-  Future<Result<UserModel>> signUp(SignUpRequest request) {
+  Future<Result<AuthResponseModel>> signUp(SignUpRequest request) {
     return authOnlineDataSource.signUp(
        request
         );

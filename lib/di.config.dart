@@ -1,4 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // InjectableConfigGenerator
@@ -72,76 +73,86 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final apiModule = _$ApiModule();
-    gh.factory<_i460.PrefsHelper>(() => _i460.PrefsHelper());
     gh.factory<_i200.VerifyCode>(() => const _i200.VerifyCode());
     gh.singleton<_i528.PrettyDioLogger>(() => apiModule.provideDioLogger());
     gh.singleton<_i361.BaseOptions>(() => apiModule.provideOptions());
     gh.singleton<_i411.SharedPreferencesHelper>(
-        () => _i411.SharedPreferencesHelper());
-    gh.singleton<_i361.Dio>(() => apiModule.provideDio(
-          gh<_i361.BaseOptions>(),
-          gh<_i528.PrettyDioLogger>(),
-        ));
-    gh.singleton<_i954.ApiClient>(
-        () => apiModule.provideApiClient(gh<_i361.Dio>()));
+      () => _i411.SharedPreferencesHelper(),
+    );
+    gh.singleton<_i361.Dio>(
+      () => apiModule.provideDio(
+        gh<_i361.BaseOptions>(),
+        gh<_i528.PrettyDioLogger>(),
+      ),
+    );
+    gh.singleton<_i202.ApiClient>(
+      () => apiModule.provideApiClient(gh<_i361.Dio>()),
+    );
+    gh.singleton<_i464.HomeApiClient>(
+      () => apiModule.provideHomeApiClient(gh<_i361.Dio>()),
+    );
     gh.factory<_i530.HomeOnlineDataSource>(
-        () => _i452.HomeOnlineDataSourceImpl(gh<_i954.ApiClient>()));
+      () => _i452.HomeOnlineDataSourceImpl(gh<_i464.HomeApiClient>()),
+    );
     gh.factory<_i648.AuthOnlineDataSource>(
-        () => _i749.AuthOnlineDataSourceImpl(gh<_i954.ApiClient>()));
-    gh.factory<_i994.CheckQuestionsDataSource>(
-        () => _i552.CheckQuestionsDataSourceImpl(gh<_i954.ApiClient>()));
-    gh.factory<_i494.HomeRepo>(
-        () => _i191.HomeRepoImpl(gh<_i530.HomeOnlineDataSource>()));
-    gh.factory<_i703.QuestionsOnlineDataSource>(
-        () => _i309.QuestionsOnlineDataSourceImpl(gh<_i954.ApiClient>()));
+      () => _i749.AuthOnlineDataSourceImpl(gh<_i202.ApiClient>()),
+    );
     gh.factory<_i894.AuthRepo>(
-        () => _i248.AuthRepoImpl(gh<_i648.AuthOnlineDataSource>()));
+      () => _i248.AuthRepoImpl(gh<_i648.AuthOnlineDataSource>()),
+    );
     gh.factory<_i746.EmailVerificationUseCase>(
-        () => _i746.EmailVerificationUseCase(gh<_i894.AuthRepo>()));
+      () => _i746.EmailVerificationUseCase(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i344.ForgotPasswordUseCase>(
-        () => _i344.ForgotPasswordUseCase(gh<_i894.AuthRepo>()));
+      () => _i344.ForgotPasswordUseCase(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i292.LoginUseCase>(
-        () => _i292.LoginUseCase(gh<_i894.AuthRepo>()));
+      () => _i292.LoginUseCase(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i271.ResetPasswordUseCase>(
-        () => _i271.ResetPasswordUseCase(gh<_i894.AuthRepo>()));
+      () => _i271.ResetPasswordUseCase(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i949.SignupUseCase>(
-        () => _i949.SignupUseCase(gh<_i894.AuthRepo>()));
+      () => _i949.SignupUseCase(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i77.ForgetPasswordViewModel>(
-        () => _i77.ForgetPasswordViewModel(gh<_i894.AuthRepo>()));
+      () => _i77.ForgetPasswordViewModel(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i748.LoginViewModel>(
-        () => _i748.LoginViewModel(gh<_i894.AuthRepo>()));
+      () => _i748.LoginViewModel(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i440.ResetPasswordViewModel>(
-        () => _i440.ResetPasswordViewModel(gh<_i894.AuthRepo>()));
+      () => _i440.ResetPasswordViewModel(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i958.SignUpViewModel>(
-        () => _i958.SignUpViewModel(gh<_i894.AuthRepo>()));
+      () => _i958.SignUpViewModel(gh<_i894.AuthRepo>()),
+    );
     gh.factory<_i631.VerifyViewModel>(
-        () => _i631.VerifyViewModel(gh<_i894.AuthRepo>()));
-    gh.factory<_i1004.ExamsViewModel>(() => _i1004.ExamsViewModel(
-          gh<_i494.HomeRepo>(),
-          gh<_i411.SharedPreferencesHelper>(),
-        ));
+      () => _i631.VerifyViewModel(gh<_i894.AuthRepo>()),
+    );
+    gh.factory<_i494.HomeRepo>(
+      () => _i191.HomeRepoImpl(gh<_i530.HomeOnlineDataSource>()),
+    );
+    gh.factory<_i1004.ExamsViewModel>(
+      () => _i1004.ExamsViewModel(
+        gh<_i494.HomeRepo>(),
+        gh<_i411.SharedPreferencesHelper>(),
+      ),
+    );
     gh.factory<_i484.SubjectUseCase>(
-        () => _i484.SubjectUseCase(gh<_i494.HomeRepo>()));
+      () => _i484.SubjectUseCase(gh<_i494.HomeRepo>()),
+    );
     gh.factory<_i193.SubjectUseCase>(
-        () => _i193.SubjectUseCase(gh<_i494.HomeRepo>()));
+      () => _i193.SubjectUseCase(gh<_i494.HomeRepo>()),
+    );
     gh.factory<_i1031.SubjectByIdUseCase>(
-        () => _i1031.SubjectByIdUseCase(gh<_i494.HomeRepo>()));
+      () => _i1031.SubjectByIdUseCase(gh<_i494.HomeRepo>()),
+    );
     gh.factory<_i1039.SubjectViewModel>(
-        () => _i1039.SubjectViewModel(gh<_i494.HomeRepo>()));
-    gh.factory<_i101.QuestionRepo>(
-        () => _i823.QuestionsRepoImpl(gh<_i703.QuestionsOnlineDataSource>()));
-    gh.factory<_i275.CheckQuestionsRepo>(() =>
-        _i171.CheckQuestionsRepoImpl(gh<_i994.CheckQuestionsDataSource>()));
-    gh.factory<_i659.CheckQuestionsUseCase>(
-        () => _i659.CheckQuestionsUseCase(gh<_i275.CheckQuestionsRepo>()));
-    gh.factory<_i393.QuestionsUseCase>(
-        () => _i393.QuestionsUseCase(gh<_i101.QuestionRepo>()));
-    gh.factory<_i168.QuestionsViewModel>(() => _i168.QuestionsViewModel(
-          gh<_i101.QuestionRepo>(),
-          gh<_i659.CheckQuestionsUseCase>(),
-        ));
+      () => _i1039.SubjectViewModel(gh<_i494.HomeRepo>()),
+    );
     return this;
   }
 }
 
-class _$ApiModule extends _i790.ApiModule {}
+class _$ApiModule extends _i72.ApiModule {}

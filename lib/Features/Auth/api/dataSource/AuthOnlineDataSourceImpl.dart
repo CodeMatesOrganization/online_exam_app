@@ -4,7 +4,7 @@ import 'package:online_exam/core/api/api_utils.dart';
 import 'package:online_exam/Features/Auth/api/model/request/login_request.dart';
 import 'package:online_exam/Features/Auth/api/model/request/sign_up_request.dart';
 import 'package:online_exam/Features/Auth/data/dataSource/AuthOnlineDataSource.dart';
-import 'package:online_exam/Features/Auth/domain/model/UserModel.dart';
+import 'package:online_exam/Features/Auth/domain/model/AuthResponseModel.dart';
 import 'package:online_exam/Features/Auth/domain/result.dart';
 
 
@@ -15,18 +15,18 @@ class AuthOnlineDataSourceImpl implements AuthOnlineDataSource {
   AuthOnlineDataSourceImpl(this.apiClient);
 
   @override
-  Future<Result<UserModel>> login(LoginRequest request) {
-    return executeApi<UserModel>(() async {
+  Future<Result<AuthResponseModel>> login(LoginRequest request) {
+    return executeApi<AuthResponseModel>(() async {
       final response = await apiClient.login(request);
-      return response.user!.toUserModel();
+      return response.toAuthResponseModel();
     });
   }
 
   @override
-  Future<Result<UserModel>> signUp(SignUpRequest request) {
-    return executeApi<UserModel>(() async {
+  Future<Result<AuthResponseModel>> signUp(SignUpRequest request) {
+    return executeApi<AuthResponseModel>(() async {
       final response = await apiClient.signUp(request);
-      return response.user!.toUserModel();
+      return response.toAuthResponseModel();
     });
   }
 

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:online_exam/Features/Auth/api/model/response/user_response.dart' show UserResponse;
+import 'package:online_exam/Features/Auth/domain/model/AuthResponseModel.dart';
 
 part 'auth_response.g.dart';
 
@@ -24,5 +25,14 @@ class AuthResponse {
 
   Map<String, dynamic> toJson() {
     return _$AuthResponseToJson(this);
+  }
+
+
+  AuthResponseModel toAuthResponseModel(){
+    return AuthResponseModel(
+       user: user!.toUserModel(),
+      message: message,
+      token: token
+    );
   }
 }

@@ -12,7 +12,7 @@ import 'package:online_exam/Features/Auth/ui/widget/AppErrorWidget.dart';
 import 'package:online_exam/Features/Auth/ui/widget/custome_text.dart';
 
 class LoginScreen extends StatefulWidget {
-  static const String routename = "/login";
+  static const String routeName = "/login";
 
   @override
   State<LoginScreen> createState() => _LoginState();
@@ -80,10 +80,7 @@ class _LoginState extends State<LoginScreen> {
                   const SizedBox(height: 14),
                   Row(
                     children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (_) {},
-                      ),
+                      Checkbox(value: false, onChanged: (_) {}),
                       const Text("Remember me"),
                       const Spacer(),
                       TextButton(
@@ -105,8 +102,10 @@ class _LoginState extends State<LoginScreen> {
                           context: context,
                           barrierDismissible: false,
                           builder: (_) => const Center(
-                              child: CircularProgressIndicator(
-                                  color: AppColors.blue)),
+                            child: CircularProgressIndicator(
+                              color: AppColors.blue,
+                            ),
+                          ),
                         );
                       } else if (state is LoginErrorState) {
                         Navigator.of(context, rootNavigator: true).pop();
@@ -126,12 +125,16 @@ class _LoginState extends State<LoginScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (_) => HomeScreen()),
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => HomeScreen()),
                         );
                       } else if (state is NavigateToForgotPasswordEvent) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (_) => ForgetPasswordScreen()),
+                            builder: (_) => ForgetPasswordScreen(),
+                          ),
                         );
                       } else if (state is NavigateToSignUpEvent) {
                         Navigator.pushReplacement(
@@ -144,10 +147,12 @@ class _LoginState extends State<LoginScreen> {
                       return ElevatedButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            viewModel.doIntent(LoginButtonClicked(
-                              email: emailController.text.trim(),
-                              password: passController.text.trim(),
-                            ));
+                            viewModel.doIntent(
+                              LoginButtonClicked(
+                                email: emailController.text.trim(),
+                                password: passController.text.trim(),
+                              ),
+                            );
                           }
                         },
                         child: const Text("Login"),
